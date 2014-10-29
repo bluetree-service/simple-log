@@ -1,0 +1,25 @@
+{
+    "name": "chajr/class-log",
+    "type": "library",
+    "license": "Apache-2.0",
+    "description": "Class Log libraries",
+    "keywords": ["log", "logging", "messages", "class log", "error", "exception", "warning"],
+    "homepage": "https://github.com/chajr/class-log",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Michał Adamiak",
+            "email": "chajr@bluetree.pl",
+            "homepage": "https://github.com/chajr",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ClassLog\\": "src/"
+        }
+    }
+}
