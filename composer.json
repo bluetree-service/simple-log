@@ -1,0 +1,20 @@
+{
+    "name": "bluetree-service/simple-log",
+    "description": "Basic Register pattern class",
+    "keywords": ["log"],
+    "license": "",
+    "type": "library",
+    "require": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "SimpleLog": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests"
+        ]
+    }
+}
