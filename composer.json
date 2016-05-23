@@ -1,15 +1,25 @@
 {
     "name": "bluetree-service/simple-log",
-    "description": "Basic Register pattern class",
-    "keywords": ["log"],
-    "license": "",
     "type": "library",
+    "license": "Apache-2.0",
+    "description": "Class Log libraries",
+    "keywords": ["log", "logging", "messages", "class log", "error", "exception", "warning"],
+    "homepage": "https://github.com/bluetree-service/simple-log",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Michał Adamiak",
+            "email": "chajr@bluetree.pl",
+            "homepage": "https://github.com/bluetree-service",
+            "role": "Developer"
+        }
+    ],
     "require": {
-
+        "php": ">=5.4.0"
     },
     "autoload": {
         "psr-4": {
-            "SimpleLog": "src/"
+            "SimpleLog\\": "src/"
         }
     },
     "autoload-dev": {
