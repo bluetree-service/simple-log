@@ -45,10 +45,9 @@ class Log implements LogInterface
             $message .= PHP_EOL;
         }
 
-        $message = strftime('%H:%M:%S - %d-%m-%Y')
+        $message = strftime('%d-%m-%Y - %H:%M:%S')
             . PHP_EOL
             . $message
-            . PHP_EOL
             . '-----------------------------------------------------------'
             . PHP_EOL;
 
