@@ -26,7 +26,7 @@ class LogStatic
      */
     public static function makeLog($message, array $params = [])
     {
-        self::_init();
+        self::init();
         return self::$_instance->makeLog($message, $params);
     }
 
@@ -39,7 +39,7 @@ class LogStatic
      */
     public static function setOption($key, $val)
     {
-        self::_init();
+        self::init();
         return self::$_instance->setOption($key, $val);
     }
 
@@ -51,14 +51,14 @@ class LogStatic
      */
     public static function getOption($key = null)
     {
-        self::_init();
+        self::init();
         return self::$_instance->getOption($key);
     }
 
     /**
      * create Log object if not exists
      */
-    protected static function _init()
+    protected static function init()
     {
         if (is_null(self::$_instance)) {
             self::$_instance = new Log;

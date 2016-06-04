@@ -38,6 +38,10 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
         if (file_exists($this->_logPath . self::WARNING_LOG_NAME)) {
             unlink($this->_logPath . self::WARNING_LOG_NAME);
         }
+
+        if (file_exists($this->_logPath)) {
+            rmdir($this->_logPath);
+        }
     }
 
     /**
@@ -73,6 +77,7 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
             [
                 'message key' => 'some message',
                 'another key' => 'some another message',
+                'no key message',
             ],
             [
                 'log_path' => $this->_logPath
@@ -84,6 +89,38 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
         $content = file_get_contents($this->_logPath . self::NOTICE_LOG_NAME);
         //because of different time and date of creating log file, we remove first line with date
         $this->assertEquals($this->_getArrayMessageContent(), substr($content, strpos($content, "\n") +1));
+    }
+
+    /**
+     * simple create log object and create log message from array with sub arrays data in given directory
+     */
+    public function testCreateLogWithSubArrayMessage()
+    {
+        $log = new Log;
+
+        $this->assertFileNotExists($this->_logPath . self::NOTICE_LOG_NAME);
+
+        $log->makeLog(
+            [
+                'sub array' => [
+                    'key' => 'val',
+                    'key 2' => 'val 2',
+                ],
+            ],
+            [
+                'log_path' => $this->_logPath
+            ]
+        );
+
+        $this->assertFileExists($this->_logPath . self::NOTICE_LOG_NAME);
+
+        $content = file_get_contents($this->_logPath . self::NOTICE_LOG_NAME);
+        //because of different time and date of creating log file, we remove first line with date
+        //hack with remove new lines because of differences between output and stored expectation
+        $this->assertEquals(
+            str_replace("\n", '', $this->_getSubArrayMessageContent()),
+            str_replace("\n", '', substr($content, strpos($content, "\n") +1))
+        );
     }
 
     /**
@@ -139,6 +176,18 @@ EOT;
         return <<<EOT
 - message key: some message
 - another key: some another message
+- no key message
+-----------------------------------------------------------
+
+EOT;
+    }
+
+    protected function _getSubArrayMessageContent()
+    {
+        return <<<EOT
+- sub array:
+     - key: val
+    - key 2: val 2
 -----------------------------------------------------------
 
 EOT;
@@ -155,6 +204,10 @@ EOT;
 
         if (file_exists($this->_logPath . self::WARNING_LOG_NAME)) {
             unlink($this->_logPath . self::WARNING_LOG_NAME);
+        }
+
+        if (file_exists($this->_logPath)) {
+            rmdir($this->_logPath);
         }
     }
 }
