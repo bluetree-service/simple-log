@@ -1,6 +1,5 @@
-.idea
 composer.phar
+phpunit.phar
 composer.lock
 vendor
-tests/log/warning.log
-tests/log/notice.log
+tests/log/*

@@ -23,31 +23,9 @@ class Log implements LogInterface
     {
         $params = array_merge($this->_defaultParams, $params);
 
-        if (is_array($message)) {
-            $information = '';
-
-            foreach ($message as $key => $value) {
-                if (is_array($value)) {
-                    $newValue = PHP_EOL;
-
-                    foreach ($value as $valueKey => $description) {
-                        $newValue .=  "    - $valueKey: $description" . PHP_EOL;
-                    }
-
-                    $value = $newValue;
-                }
-
-                $information .= "- $key: $value" . PHP_EOL;
-            }
-
-            $message = $information;
-        } else {
-            $message .= PHP_EOL;
-        }
-
-        $message = strftime('%d-%m-%Y - %H:%M:%S')
+        $logMessage = strftime('%d-%m-%Y - %H:%M:%S')
             . PHP_EOL
-            . $message
+            . $this->buildMessage($message)
             . '-----------------------------------------------------------'
             . PHP_EOL;
 
@@ -61,7 +39,7 @@ class Log implements LogInterface
             file_put_contents($logFile, '');
         }
 
-        file_put_contents($logFile, $message, FILE_APPEND);
+        file_put_contents($logFile, $logMessage, FILE_APPEND);
 
         return $this;
     }
@@ -92,5 +70,38 @@ class Log implements LogInterface
         }
 
         return $this->_defaultParams[$key];
+    }
+
+    /**
+     * recurrent function to convert array into message
+     *
+     * @param string|array $message
+     * @param string $indent
+     * @return string
+     */
+    protected function buildMessage($message, $indent = '')
+    {
+        $information = '';
+
+        if (is_array($message)) {
+            foreach ($message as $key => $value) {
+                if (is_int($key)) {
+                    $key = '- ';
+                } else {
+                    $key = '- ' . $key . ': ';
+                }
+
+                if (is_array($value)) {
+                    $information .= $key . PHP_EOL;
+                    $information .= $this->buildMessage($value, $indent .= '    ');
+                } else {
+                    $information .= $indent . $key . $value . PHP_EOL;
+                }
+            }
+        } else {
+            $information = $message . PHP_EOL;
+        }
+
+        return $information;
     }
 }
