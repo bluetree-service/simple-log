@@ -12,6 +12,21 @@ Simply way to create log message written directly into file.
 
 ## Usage
 
+Save simple log message into default log directory:
+```php
+LogStatic::makeLog('Some log message');
+```
+
+To set different log directory use that command:
+```php
+LogStatic::setOption('log_path', '/var/log/simple-log');
+```
+
+---------------
+
+More information in:  
+[Change log](https://github.com/bluetree-service/simple-log/doc/basic_usage.md "Change log")
+
 Install via Composer
 --------------
 To use packages you can just download package and pace it in your code.
@@ -40,7 +55,7 @@ Project description
 Change log
 --------------
 All release version changes:  
-[Change log](https://github.com/bluetree-service/simple-log/wiki/Change-log "Change log")
+[Change log](https://github.com/bluetree-service/simple-log/doc/change_log.md "Change log")
 
 License
 --------------
