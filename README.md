@@ -7,6 +7,7 @@ Simple Log
 [![License](https://poser.pugx.org/bluetree-service/simple-log/license.svg)](https://packagist.org/packages/bluetree-service/simple-log)
 [![Coverage Status](https://coveralls.io/repos/github/bluetree-service/simple-log/badge.svg?branch=master)](https://coveralls.io/github/bluetree-service/simple-log?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/b924032d-b6be-4500-bbd7-2292a61d541d/mini.png)](https://insight.sensiolabs.com/projects/b924032d-b6be-4500-bbd7-2292a61d541d)
+[![Code Climate](https://codeclimate.com/github/bluetree-service/simple-log/badges/gpa.svg)](https://codeclimate.com/github/bluetree-service/simple-log)
 
 Simply way to create log message written directly into file.
 
