@@ -5,7 +5,7 @@ namespace ClassEvent\Test;
 use SimpleLog\Log;
 use SimpleLog\LogStatic;
 
-class SimpleLogtest extends \PHPUnit_Framework_TestCase
+class SimpleLogTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * name of test event log file
@@ -22,25 +22,25 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    protected $_logPath;
+    protected $logPath;
 
     /**
      * actions launched before test starts
      */
     protected function setUp()
     {
-        $this->_logPath = dirname(__FILE__) . '/log';
+        $this->logPath = dirname(__FILE__) . '/log';
 
-        if (file_exists($this->_logPath . self::NOTICE_LOG_NAME)) {
-            unlink($this->_logPath . self::NOTICE_LOG_NAME);
+        if (file_exists($this->logPath . self::NOTICE_LOG_NAME)) {
+            unlink($this->logPath . self::NOTICE_LOG_NAME);
         }
 
-        if (file_exists($this->_logPath . self::WARNING_LOG_NAME)) {
-            unlink($this->_logPath . self::WARNING_LOG_NAME);
+        if (file_exists($this->logPath . self::WARNING_LOG_NAME)) {
+            unlink($this->logPath . self::WARNING_LOG_NAME);
         }
 
-        if (file_exists($this->_logPath)) {
-            rmdir($this->_logPath);
+        if (file_exists($this->logPath)) {
+            rmdir($this->logPath);
         }
     }
 
@@ -51,17 +51,18 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
     {
         $log = new Log;
 
-        $this->assertFileNotExists($this->_logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog('Some log message', [
-            'log_path' => $this->_logPath
+            'log_path' => $this->logPath
         ]);
 
-        $this->assertFileExists($this->_logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
 
-        $content = file_get_contents($this->_logPath . self::NOTICE_LOG_NAME);
+        $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
+
         //because of different time and date of creating log file, we remove first line with date
-        $this->assertEquals($this->_getSampleContent(), substr($content, strpos($content, "\n") +1));
+        $this->assertEquals($this->getSampleContent(), substr($content, strpos($content, "\n") +1));
     }
 
     /**
@@ -71,7 +72,7 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
     {
         $log = new Log;
 
-        $this->assertFileNotExists($this->_logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog(
             [
@@ -80,15 +81,16 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
                 'no key message',
             ],
             [
-                'log_path' => $this->_logPath
+                'log_path' => $this->logPath
             ]
         );
 
-        $this->assertFileExists($this->_logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
 
-        $content = file_get_contents($this->_logPath . self::NOTICE_LOG_NAME);
+        $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
+
         //because of different time and date of creating log file, we remove first line with date
-        $this->assertEquals($this->_getArrayMessageContent(), substr($content, strpos($content, "\n") +1));
+        $this->assertEquals($this->getArrayMessageContent(), substr($content, strpos($content, "\n") +1));
     }
 
     /**
@@ -98,7 +100,7 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
     {
         $log = new Log;
 
-        $this->assertFileNotExists($this->_logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog(
             [
@@ -108,17 +110,18 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             [
-                'log_path' => $this->_logPath
+                'log_path' => $this->logPath
             ]
         );
 
-        $this->assertFileExists($this->_logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
 
-        $content = file_get_contents($this->_logPath . self::NOTICE_LOG_NAME);
+        $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
+
         //because of different time and date of creating log file, we remove first line with date
         //hack with remove new lines because of differences between output and stored expectation
         $this->assertEquals(
-            str_replace("\n", '', $this->_getSubArrayMessageContent()),
+            str_replace("\n", '', $this->getSubArrayMessageContent()),
             str_replace("\n", '', substr($content, strpos($content, "\n") +1))
         );
     }
@@ -130,17 +133,17 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
     {
         $log = new Log;
 
-        $this->assertFileNotExists($this->_logPath . self::WARNING_LOG_NAME);
+        $this->assertFileNotExists($this->logPath . self::WARNING_LOG_NAME);
 
-        $log->setOption('log_path', $this->_logPath)
+        $log->setOption('log_path', $this->logPath)
             ->setOption('type', 'warning')
             ->makeLog('Some log message');
 
-        $this->assertFileExists($this->_logPath . self::WARNING_LOG_NAME);
+        $this->assertFileExists($this->logPath . self::WARNING_LOG_NAME);
         $this->assertEquals('warning', $log->getOption('type'));
         $this->assertEquals(
             [
-                'log_path' => $this->_logPath,
+                'log_path' => $this->logPath,
                 'type' => 'warning',
             ],
             $log->getOption()
@@ -152,17 +155,17 @@ class SimpleLogtest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateStaticLog()
     {
-        LogStatic::setOption('log_path', $this->_logPath);
+        LogStatic::setOption('log_path', $this->logPath);
 
-        $this->assertFileNotExists($this->_logPath . self::NOTICE_LOG_NAME);
-        $this->assertEquals($this->_logPath, LogStatic::getOption('log_path'));
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertEquals($this->logPath, LogStatic::getOption('log_path'));
 
         LogStatic::makeLog('Some log message');
 
-        $this->assertFileExists($this->_logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
     }
 
-    protected function _getSampleContent()
+    protected function getSampleContent()
     {
         return <<<EOT
 Some log message
@@ -171,7 +174,7 @@ Some log message
 EOT;
     }
 
-    protected function _getArrayMessageContent()
+    protected function getArrayMessageContent()
     {
         return <<<EOT
 - message key: some message
@@ -182,7 +185,7 @@ EOT;
 EOT;
     }
 
-    protected function _getSubArrayMessageContent()
+    protected function getSubArrayMessageContent()
     {
         return <<<EOT
 - sub array:
@@ -198,16 +201,16 @@ EOT;
      */
     protected function tearDown()
     {
-        if (file_exists($this->_logPath . self::NOTICE_LOG_NAME)) {
-            unlink($this->_logPath . self::NOTICE_LOG_NAME);
+        if (file_exists($this->logPath . self::NOTICE_LOG_NAME)) {
+            unlink($this->logPath . self::NOTICE_LOG_NAME);
         }
 
-        if (file_exists($this->_logPath . self::WARNING_LOG_NAME)) {
-            unlink($this->_logPath . self::WARNING_LOG_NAME);
+        if (file_exists($this->logPath . self::WARNING_LOG_NAME)) {
+            unlink($this->logPath . self::WARNING_LOG_NAME);
         }
 
-        if (file_exists($this->_logPath)) {
-            rmdir($this->_logPath);
+        if (file_exists($this->logPath)) {
+            rmdir($this->logPath);
         }
     }
 }

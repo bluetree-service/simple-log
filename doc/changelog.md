@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.6.0.0 - 2017-05-26
+### Added
+* Added composer lock into repository
+
+### Changed
+* Code style changes
+* Message building refactor
+
 ## 0.5.0.1 - 2016-03-07
 ### Added
 * Missing documentation

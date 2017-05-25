@@ -7,7 +7,7 @@ class Log implements LogInterface
     /**
      * @var array
      */
-    protected $_defaultParams = [
+    protected $defaultParams = [
         'log_path' => './log',
         'type' => 'notice',
     ];
@@ -21,7 +21,7 @@ class Log implements LogInterface
      */
     public function makeLog($message, array $params = [])
     {
-        $params = array_merge($this->_defaultParams, $params);
+        $params = array_merge($this->defaultParams, $params);
 
         $logMessage = strftime('%d-%m-%Y - %H:%M:%S')
             . PHP_EOL
@@ -53,23 +53,23 @@ class Log implements LogInterface
      */
     public function setOption($key, $val)
     {
-        $this->_defaultParams[$key] = $val;
+        $this->defaultParams[$key] = $val;
         return $this;
     }
 
     /**
      * return all configuration or only given key value
-     * 
+     *
      * @param null|string $key
      * @return array|mixed
      */
     public function getOption($key = null)
     {
         if (is_null($key)) {
-            return $this->_defaultParams;
+            return $this->defaultParams;
         }
 
-        return $this->_defaultParams[$key];
+        return $this->defaultParams[$key];
     }
 
     /**
@@ -85,21 +85,36 @@ class Log implements LogInterface
 
         if (is_array($message)) {
             foreach ($message as $key => $value) {
-                if (is_int($key)) {
-                    $key = '- ';
-                } else {
-                    $key = '- ' . $key . ': ';
-                }
-
-                if (is_array($value)) {
-                    $information .= $key . PHP_EOL;
-                    $information .= $this->buildMessage($value, $indent .= '    ');
-                } else {
-                    $information .= $indent . $key . $value . PHP_EOL;
-                }
+                $information = $this->processMessage($key, $value, $information, $indent);
             }
         } else {
             $information = $message . PHP_EOL;
+        }
+
+        return $information;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @param string $information
+     * @param string $indent
+     * @return string
+     */
+    protected function processMessage($key, $value, $information, $indent)
+    {
+        if (is_int($key)) {
+            $key = '- ';
+        } else {
+            $key = '- ' . $key . ': ';
+        }
+
+        if (is_array($value)) {
+            $indent .= '    ';
+            $information .= $key . PHP_EOL;
+            $information .= $this->buildMessage($value, $indent);
+        } else {
+            $information .= $indent . $key . $value . PHP_EOL;
         }
 
         return $information;

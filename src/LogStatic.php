@@ -7,12 +7,12 @@ class LogStatic
     /**
      * @var null|Log
      */
-    protected static $_instance = null;
+    protected static $instance = null;
 
     /**
      * @var array
      */
-    protected $_defaultParams = [
+    protected $defaultParams = [
         'log_path' => './log',
         'type' => 'notice',
     ];
@@ -27,7 +27,7 @@ class LogStatic
     public static function makeLog($message, array $params = [])
     {
         self::init();
-        return self::$_instance->makeLog($message, $params);
+        return self::$instance->makeLog($message, $params);
     }
 
     /**
@@ -40,7 +40,7 @@ class LogStatic
     public static function setOption($key, $val)
     {
         self::init();
-        return self::$_instance->setOption($key, $val);
+        return self::$instance->setOption($key, $val);
     }
 
     /**
@@ -52,7 +52,7 @@ class LogStatic
     public static function getOption($key = null)
     {
         self::init();
-        return self::$_instance->getOption($key);
+        return self::$instance->getOption($key);
     }
 
     /**
@@ -60,8 +60,8 @@ class LogStatic
      */
     protected static function init()
     {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new Log;
+        if (is_null(self::$instance)) {
+            self::$instance = new Log;
         }
     }
 }
