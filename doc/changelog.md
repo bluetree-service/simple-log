@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.6.0.2 - 2017-05-26
+### Added
+* SensioLabs link update
+
 ## 0.6.0.1 - 2017-05-26
 ### Added
 * Added Code Climate configuration
