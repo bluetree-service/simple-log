@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.6.0.1 - 2017-05-26
+### Added
+* Added Code Climate configuration
+
+### Changed
+* Removed support of PHP 5.4
+* Updated tests to run on PHP 7.0
+
 ## 0.6.0.0 - 2017-05-26
 ### Added
 * Added composer lock into repository

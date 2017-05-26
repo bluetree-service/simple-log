@@ -1,4 +1,2 @@
-composer.phar
-phpunit.phar
 vendor
 tests/log/*

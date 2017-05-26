@@ -4,8 +4,9 @@ namespace ClassEvent\Test;
 
 use SimpleLog\Log;
 use SimpleLog\LogStatic;
+use PHPUnit\Framework\TestCase;
 
-class SimpleLogTest extends \PHPUnit_Framework_TestCase
+class SimpleLogTest extends TestCase
 {
     /**
      * name of test event log file
