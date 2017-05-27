@@ -1,11 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 0.6.0.2 - 2017-05-26
+## 0.6.0.3 - 2017-27-05
+### Changed
+* Fixed changelog date
+
+## 0.6.0.2 - 2017-26-05
 ### Added
 * SensioLabs link update
 
-## 0.6.0.1 - 2017-05-26
+## 0.6.0.1 - 2017-26-05
 ### Added
 * Added Code Climate configuration
 
@@ -13,7 +17,7 @@ All notable changes to this project will be documented in this file.
 * Removed support of PHP 5.4
 * Updated tests to run on PHP 7.0
 
-## 0.6.0.0 - 2017-05-26
+## 0.6.0.0 - 2017-26-05
 ### Added
 * Added composer lock into repository
 
@@ -21,7 +25,7 @@ All notable changes to this project will be documented in this file.
 * Code style changes
 * Message building refactor
 
-## 0.5.0.1 - 2016-03-07
+## 0.5.0.1 - 2016-07-03
 ### Added
 * Missing documentation
 
