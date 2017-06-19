@@ -1,9 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.6.0.4 - 2017-19-06
+### Fixed
+* Tests namespace
+
 ## 0.6.0.3 - 2017-27-05
-### Changed
-* Fixed changelog date
+### Fixed
+* Changelog date
 
 ## 0.6.0.2 - 2017-26-05
 ### Added
