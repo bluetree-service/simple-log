@@ -32,17 +32,7 @@ class SimpleLogTest extends TestCase
     {
         $this->logPath = dirname(__FILE__) . '/log';
 
-        if (file_exists($this->logPath . self::NOTICE_LOG_NAME)) {
-            unlink($this->logPath . self::NOTICE_LOG_NAME);
-        }
-
-        if (file_exists($this->logPath . self::WARNING_LOG_NAME)) {
-            unlink($this->logPath . self::WARNING_LOG_NAME);
-        }
-
-        if (file_exists($this->logPath)) {
-            rmdir($this->logPath);
-        }
+        $this->tearDown();
     }
 
     /**
