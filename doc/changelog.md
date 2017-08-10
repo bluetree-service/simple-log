@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.7.0.0 - 2017-
+### Changed
+* Rebuild simple log to use PSR-3 standard
+
 ## 0.6.0.4 - 2017-19-06
 ### Fixed
 * Tests namespace

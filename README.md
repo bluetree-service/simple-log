@@ -46,12 +46,14 @@ Project description
 ### Used conventions
 
 * **Namespaces** - each library use namespaces
-* **PSR-4** - [PSR-4](http://www.php-fig.org/psr/psr-4/) coding standard
+* **PSR-2** - [PSR-2](http://www.php-fig.org/psr/psr-2/) Coding Style
+* **PSR-3** - [PSR-3](http://www.php-fig.org/psr/psr-3/) Logger Interface
+* **PSR-4** - [PSR-4](http://www.php-fig.org/psr/psr-4/) Autoloading Standard
 * **Composer** - [Composer](https://getcomposer.org/) usage to load/update libraries
 
 ### Requirements
 
-* PHP 5.4 or higher
+* PHP 5.5 or higher
 
 Change log
 --------------
