@@ -7,11 +7,11 @@ interface LogInterface
     /**
      * create log message
      *
-     * @param array|string $message
-     * @param array $params
+     * @param array|string|object $message
+     * @param array $context
      * @return $this
      */
-    public function makeLog($message, array $params = []);
+    public function makeLog($message, array $context = []);
 
     /**
      * set log option for all future executions of makeLog
