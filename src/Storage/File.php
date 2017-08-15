@@ -2,27 +2,52 @@
 
 namespace SimpleLog\Storage;
 
-class File implements StrorageInterface
+use SimpleLog\LogException;
+
+class File implements StorageInterface
 {
+    /**
+     * @var array
+     */
     protected $params = [];
 
-    public function __construct($params)
+    /**
+     * @param array $params
+     */
+    public function __construct(array $params)
     {
         $this->params = $params;
     }
 
+    /**
+     * @param string $message
+     * @param string $level
+     * @throws LogException
+     * @return $this
+     */
     public function store($message, $level)
     {
+        $flag = 0;
         $logFile = $this->params['log_path'] . DIRECTORY_SEPARATOR . $level . '.log';
 
         if (!is_dir($this->params['log_path'])) {
-            mkdir($this->params['log_path']);
+            $bool = mkdir($this->params['log_path']);
+
+            if (!$bool) {
+                throw new LogException('Unable to create log directory: ' . $this->params['log_path']);
+            }
         }
 
-        if (!file_exists($logFile)) {
-            file_put_contents($logFile, '');
+        if (file_exists($logFile)) {
+            $flag = FILE_APPEND;
         }
 
-        file_put_contents($logFile, $message, FILE_APPEND);
+        $bool = file_put_contents($logFile, $message, $flag);
+
+        if (!$bool) {
+            throw new LogException('Unable to save log file: ' . $logFile);
+        }
+
+        return $this;
     }
 }
