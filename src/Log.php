@@ -2,44 +2,116 @@
 
 namespace SimpleLog;
 
-class Log implements LogInterface
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerTrait;
+use Psr\Log\LogLevel;
+use Psr\Log\InvalidArgumentException as LogInvalidArgumentException;
+
+class Log implements LogInterface, LoggerInterface
 {
+    use LoggerTrait;
+
     /**
      * @var array
      */
     protected $defaultParams = [
         'log_path' => './log',
         'type' => 'notice',
+        'storage' => '\SimpleLog\Storage\File'
     ];
+
+    /**
+     * @var \SimpleLog\Storage\StorageInterface
+     */
+    protected $storage;
+
+    /**
+     * @var array
+     */
+    protected $levels = [];
+
+    /**
+     * @var string
+     */
+    protected $message = '';
+
+    /**
+     * @param array $params
+     */
+    public function __construct(array $params = [])
+    {
+        $this->defaultParams = array_merge($this->defaultParams, $params);
+
+        $levels = new \ReflectionClass(new LogLevel);
+        $this->levels = $levels->getConstants();
+
+        $this->storage = new $this->defaultParams['storage']($this->defaultParams);
+    }
 
     /**
      * log event information into file
      *
-     * @param array|string $message
-     * @param array $params
+     * @param array|string|object $message
+     * @param array $context
      * @return $this
      */
-    public function makeLog($message, array $params = [])
+    public function makeLog($message, array $context = [])
     {
-        $params = array_merge($this->defaultParams, $params);
+        return $this->log($this->defaultParams['type'], $message, $context);
+    }
 
-        $logMessage = strftime('%d-%m-%Y - %H:%M:%S')
+    /**
+     * @param string $level
+     * @param string|array|object $message
+     * @param array $context
+     * @return $this
+     */
+    public function log($level, $message, array $context = [])
+    {
+        $this->message = '';
+
+        if (!in_array($level, $this->levels)) {
+            throw new LogInvalidArgumentException('Level not defined: ' . $level);
+        }
+
+        $this->buildMessage($message)
+            ->wrapMessage()
+            ->buildContext($context)
+            ->storage
+            ->store($this->message, $level);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function wrapMessage()
+    {
+        $this->message = strftime('%d-%m-%Y - %H:%M:%S')
             . PHP_EOL
-            . $this->buildMessage($message)
+            . $this->message
             . '-----------------------------------------------------------'
             . PHP_EOL;
 
-        $logFile = $params['log_path'] . DIRECTORY_SEPARATOR . $params['type'] . '.log';
+        return $this;
+    }
 
-        if (!is_dir($params['log_path'])) {
-            mkdir($params['log_path']);
+    /**
+     * @param array $context
+     * @return $this
+     */
+    protected function buildContext(array $context)
+    {
+        $replace = [];
+
+        foreach ($context as $key => $val) {
+            if (!is_array($val) && (!is_object($val) || method_exists($val, '__toString'))) {
+                $replace['{' . $key . '}'] = $val;
+            }
         }
 
-        if (!file_exists($logFile)) {
-            file_put_contents($logFile, '');
-        }
-
-        file_put_contents($logFile, $logMessage, FILE_APPEND);
+        $this->message = strtr($this->message, $replace);
 
         return $this;
     }
@@ -73,35 +145,51 @@ class Log implements LogInterface
     }
 
     /**
+     * @return string
+     */
+    public function getLastMessage()
+    {
+        return $this->message;
+    }
+
+    /**
      * recurrent function to convert array into message
      *
      * @param string|array $message
      * @param string $indent
-     * @return string
+     * @return $this
      */
     protected function buildMessage($message, $indent = '')
     {
-        $information = '';
+        switch (true) {
+            case is_object($message) && method_exists($message, '__toString'):
+            case is_string($message):
+                $this->message = $message . PHP_EOL;
+                break;
 
-        if (is_array($message)) {
-            foreach ($message as $key => $value) {
-                $information = $this->processMessage($key, $value, $information, $indent);
-            }
-        } else {
-            $information = $message . PHP_EOL;
+            case is_array($message):
+                foreach ($message as $key => $value) {
+                    $this->processMessage($key, $value, $indent);
+                }
+                break;
+
+            default:
+                throw new LogInvalidArgumentException(
+                    'Incorrect message type. Must be string, array or object with __toString method.'
+                );
+                break;
         }
 
-        return $information;
+        return $this;
     }
 
     /**
      * @param string $key
      * @param mixed $value
-     * @param string $information
      * @param string $indent
-     * @return string
+     * @return $this
      */
-    protected function processMessage($key, $value, $information, $indent)
+    protected function processMessage($key, $value, $indent)
     {
         if (is_int($key)) {
             $key = '- ';
@@ -111,12 +199,12 @@ class Log implements LogInterface
 
         if (is_array($value)) {
             $indent .= '    ';
-            $information .= $key . PHP_EOL;
-            $information .= $this->buildMessage($value, $indent);
+            $this->message .= $key . PHP_EOL;
+            $this->buildMessage($value, $indent);
         } else {
-            $information .= $indent . $key . $value . PHP_EOL;
+            $this->message .= $indent . $key . $value . PHP_EOL;
         }
 
-        return $information;
+        return $this;
     }
 }
