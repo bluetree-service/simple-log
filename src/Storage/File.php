@@ -30,7 +30,7 @@ class File implements StorageInterface
         $flag = 0;
         $logFile = $this->params['log_path'] . DIRECTORY_SEPARATOR . $level . '.log';
 
-        if (!is_dir($this->params['log_path'])) {
+        if (!file_exists($this->params['log_path'])) {
             $bool = mkdir($this->params['log_path']);
 
             if (!$bool) {

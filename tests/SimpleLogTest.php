@@ -38,15 +38,13 @@ class SimpleLogTest extends TestCase
     /**
      * simple create log object and create log message in given directory
      */
-    public function testCreateLogObject()
+    public function testCreateSimpleLogMessage()
     {
-        $log = new Log;
+        $log = new Log(['log_path' => $this->logPath]);
 
         $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
 
-        $log->makeLog('Some log message', [
-            'log_path' => $this->logPath
-        ]);
+        $log->makeLog('Some log message');
 
         $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
 
@@ -61,7 +59,7 @@ class SimpleLogTest extends TestCase
      */
     public function testCreateLogWithArrayMessage()
     {
-        $log = new Log;
+        $log = new Log(['log_path' => $this->logPath]);
 
         $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
 
@@ -70,9 +68,6 @@ class SimpleLogTest extends TestCase
                 'message key' => 'some message',
                 'another key' => 'some another message',
                 'no key message',
-            ],
-            [
-                'log_path' => $this->logPath
             ]
         );
 
@@ -89,7 +84,7 @@ class SimpleLogTest extends TestCase
      */
     public function testCreateLogWithSubArrayMessage()
     {
-        $log = new Log;
+        $log = new Log(['log_path' => $this->logPath]);
 
         $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
 
@@ -99,9 +94,6 @@ class SimpleLogTest extends TestCase
                     'key' => 'val',
                     'key 2' => 'val 2',
                 ],
-            ],
-            [
-                'log_path' => $this->logPath
             ]
         );
 
@@ -136,6 +128,7 @@ class SimpleLogTest extends TestCase
             [
                 'log_path' => $this->logPath,
                 'type' => 'warning',
+                'storage' => '\SimpleLog\Storage\File'
             ],
             $log->getOption()
         );

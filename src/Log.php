@@ -45,7 +45,7 @@ class Log implements LogInterface, LoggerInterface
         $levels = new \ReflectionClass(new LogLevel);
         $this->levels = $levels->getConstants();
 
-        $this->storage = new $this->defaultParams['storage']($this->defaultParams);
+        $this->reloadStorage();
     }
 
     /**
@@ -80,6 +80,15 @@ class Log implements LogInterface, LoggerInterface
             ->storage
             ->store($this->message, $level);
 
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function reloadStorage()
+    {
+        $this->storage = new $this->defaultParams['storage']($this->defaultParams);
         return $this;
     }
 
@@ -126,7 +135,7 @@ class Log implements LogInterface, LoggerInterface
     public function setOption($key, $val)
     {
         $this->defaultParams[$key] = $val;
-        return $this;
+        return $this->reloadStorage();
     }
 
     /**
