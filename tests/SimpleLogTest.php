@@ -1,6 +1,6 @@
 <?php
 
-namespace ClassEvent\Test;
+namespace SimpleLog\Test;
 
 use SimpleLog\Log;
 use SimpleLog\LogStatic;
