@@ -98,6 +98,7 @@ class FileTest extends TestCase
      */
     public function testExceptionDuringSaveLogFile()
     {
+        chmod(dirname(__FILE__) . '/../no_permission/notice.log', 0555);
         (new File(['log_path' => dirname(__FILE__) . '/../no_permission']))
             ->store($this->testMessage[0], $this->testLog);
     }
