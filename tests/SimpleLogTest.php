@@ -36,6 +36,26 @@ class SimpleLogTest extends TestCase
     }
 
     /**
+     * @expectedException \Psr\Log\InvalidArgumentException
+     * @expectedExceptionMessage Level not defined: incorrect
+     */
+    public function testCreateLogMessageWithIncorrectLevel()
+    {
+        (new Log(['log_path' => $this->logPath]))
+            ->log('incorrect', 'Some log message');
+    }
+
+    /**
+     * @expectedException \Psr\Log\InvalidArgumentException
+     * @expectedExceptionMessage Incorrect message type. Must be string, array or object with __toString method.
+     */
+    public function testCreateIncorrectLogMessage()
+    {
+        (new Log(['log_path' => $this->logPath]))
+            ->makeLog(12312312);
+    }
+
+    /**
      * simple create log object and create log message in given directory
      */
     public function testCreateSimpleLogMessage()
@@ -50,6 +70,17 @@ class SimpleLogTest extends TestCase
 
         $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
 
+        //because of different time and date of creating log file, we remove first line with date
+        $this->assertEquals($this->getSampleContent(), substr($content, strpos($content, "\n") +1));
+    }
+
+    public function testGetLastMessage()
+    {
+        $log = new Log(['log_path' => $this->logPath]);
+
+        $log->makeLog('Some log message');
+
+        $content = $log->getLastMessage();
         //because of different time and date of creating log file, we remove first line with date
         $this->assertEquals($this->getSampleContent(), substr($content, strpos($content, "\n") +1));
     }
@@ -119,19 +150,34 @@ class SimpleLogTest extends TestCase
         $this->assertFileNotExists($this->logPath . self::WARNING_LOG_NAME);
 
         $log->setOption('log_path', $this->logPath)
-            ->setOption('type', 'warning')
+            ->setOption('level', 'warning')
             ->makeLog('Some log message');
 
         $this->assertFileExists($this->logPath . self::WARNING_LOG_NAME);
-        $this->assertEquals('warning', $log->getOption('type'));
+        $this->assertEquals('warning', $log->getOption('level'));
         $this->assertEquals(
             [
                 'log_path' => $this->logPath,
-                'type' => 'warning',
+                'level' => 'warning',
                 'storage' => '\SimpleLog\Storage\File'
             ],
             $log->getOption()
         );
+    }
+
+    /**
+     * check static log interface
+     */
+    public function testCreateStaticMakeLog()
+    {
+        LogStatic::setOption('log_path', $this->logPath);
+
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertEquals($this->logPath, LogStatic::getOption('log_path'));
+
+        LogStatic::makeLog('Some log message');
+
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
     }
 
     /**
@@ -144,15 +190,43 @@ class SimpleLogTest extends TestCase
         $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
         $this->assertEquals($this->logPath, LogStatic::getOption('log_path'));
 
-        LogStatic::makeLog('Some log message');
+        LogStatic::log('notice', 'Some log message');
 
         $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
+    }
+
+    public function testLogWithContext()
+    {
+        $log = new Log(['log_path' => $this->logPath]);
+
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+
+        $log->makeLog('Some log message with {context}', ['context' => 'some value']);
+
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
+
+        $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
+
+        //because of different time and date of creating log file, we remove first line with date
+        $this->assertEquals(
+            $this->getSampleContentWithContext(),
+            substr($content, strpos($content, "\n") +1)
+        );
     }
 
     protected function getSampleContent()
     {
         return <<<EOT
 Some log message
+-----------------------------------------------------------
+
+EOT;
+    }
+
+    protected function getSampleContentWithContext()
+    {
+        return <<<EOT
+Some log message with some value
 -----------------------------------------------------------
 
 EOT;

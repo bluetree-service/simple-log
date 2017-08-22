@@ -10,24 +10,32 @@ class LogStatic
     protected static $instance = null;
 
     /**
-     * @var array
+     * log event information into file
+     *
+     * @param string $level
+     * @param array|string $message
+     * @param array $context
+     * @param array $params
+     * @return Log
      */
-    protected $defaultParams = [
-        'log_path' => './log',
-        'type' => 'notice',
-    ];
+    public static function log($level, $message, array $context = [], array $params = [])
+    {
+        self::init($params);
+        return self::$instance->log($level, $message, $context);
+    }
 
     /**
      * log event information into file
      *
      * @param array|string $message
+     * @param array $context
      * @param array $params
      * @return Log
      */
-    public static function makeLog($message, array $params = [])
+    public static function makeLog($message, array $context = [], array $params = [])
     {
-        self::init();
-        return self::$instance->makeLog($message, $params);
+        self::init($params);
+        return self::$instance->makeLog($message, $context);
     }
 
     /**
@@ -57,11 +65,13 @@ class LogStatic
 
     /**
      * create Log object if not exists
+     *
+     * @param array $params
      */
-    protected static function init()
+    protected static function init(array $params = [])
     {
         if (is_null(self::$instance)) {
-            self::$instance = new Log;
+            self::$instance = new Log($params);
         }
     }
 }

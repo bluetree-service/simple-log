@@ -5,7 +5,7 @@ namespace SimpleLog;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
 use Psr\Log\LogLevel;
-use Psr\Log\InvalidArgumentException as LogInvalidArgumentException;
+use Psr\Log\InvalidArgumentException;
 
 class Log implements LogInterface, LoggerInterface
 {
@@ -16,7 +16,7 @@ class Log implements LogInterface, LoggerInterface
      */
     protected $defaultParams = [
         'log_path' => './log',
-        'type' => 'notice',
+        'level' => 'notice',
         'storage' => '\SimpleLog\Storage\File'
     ];
 
@@ -57,7 +57,7 @@ class Log implements LogInterface, LoggerInterface
      */
     public function makeLog($message, array $context = [])
     {
-        return $this->log($this->defaultParams['type'], $message, $context);
+        return $this->log($this->defaultParams['level'], $message, $context);
     }
 
     /**
@@ -71,14 +71,13 @@ class Log implements LogInterface, LoggerInterface
         $this->message = '';
 
         if (!in_array($level, $this->levels)) {
-            throw new LogInvalidArgumentException('Level not defined: ' . $level);
+            throw new InvalidArgumentException('Level not defined: ' . $level);
         }
 
         $this->buildMessage($message)
             ->wrapMessage()
             ->buildContext($context)
-            ->storage
-            ->store($this->message, $level);
+            ->storage->store($this->message, $level);
 
         return $this;
     }
@@ -183,7 +182,7 @@ class Log implements LogInterface, LoggerInterface
                 break;
 
             default:
-                throw new LogInvalidArgumentException(
+                throw new InvalidArgumentException(
                     'Incorrect message type. Must be string, array or object with __toString method.'
                 );
                 break;
