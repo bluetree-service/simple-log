@@ -1,9 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 0.7.0.0 - 2017-
+## 0.7.0.0 - 2017-23-07
 ### Changed
 * Rebuild simple log to use PSR-3 standard
+* Use separate class for store log info in file
 
 ## 0.6.0.4 - 2017-19-06
 ### Fixed
@@ -25,7 +26,7 @@ All notable changes to this project will be documented in this file.
 * Removed support of PHP 5.4
 * Updated tests to run on PHP 7.0
 
-## 0.6.0.0 - 2017-05-26
+## 0.6.0.0 - 2017-26-05
 ### Added
 * Added composer lock into repository
 
