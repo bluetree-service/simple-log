@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file.
 * Code style changes
 * Message building refactor
 
-## 0.5.0.1 - 2016-03-07
+## 0.5.0.1 - 2016-07-03
 ### Added
 * Missing documentation
 
