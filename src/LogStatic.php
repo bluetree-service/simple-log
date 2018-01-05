@@ -7,7 +7,7 @@ class LogStatic
     /**
      * @var null|Log
      */
-    protected static $instance = null;
+    protected static $instance;
 
     /**
      * log event information into file

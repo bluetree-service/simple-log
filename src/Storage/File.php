@@ -22,7 +22,7 @@ class File implements StorageInterface
     /**
      * @param string $message
      * @param string $level
-     * @throws LogException
+     * @throws \SimpleLog\LogException
      * @return $this
      */
     public function store($message, $level)

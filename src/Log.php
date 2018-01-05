@@ -37,6 +37,7 @@ class Log implements LogInterface, LoggerInterface
 
     /**
      * @param array $params
+     * @throws \ReflectionException
      */
     public function __construct(array $params = [])
     {
@@ -65,12 +66,13 @@ class Log implements LogInterface, LoggerInterface
      * @param string|array|object $message
      * @param array $context
      * @return $this
+     * @throws \Psr\Log\InvalidArgumentException
      */
     public function log($level, $message, array $context = [])
     {
         $this->message = '';
 
-        if (!in_array($level, $this->levels)) {
+        if (!in_array($level, $this->levels, true)) {
             throw new InvalidArgumentException('Level not defined: ' . $level);
         }
 
@@ -166,6 +168,7 @@ class Log implements LogInterface, LoggerInterface
      * @param string|array $message
      * @param string $indent
      * @return $this
+     * @throws \Psr\Log\InvalidArgumentException
      */
     protected function buildMessage($message, $indent = '')
     {
