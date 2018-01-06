@@ -1,13 +1,25 @@
 Simple Log
 =========
 
-[![Build Status](https://travis-ci.org/bluetree-service/simple-log.svg)](https://travis-ci.org/bluetree-service/simple-log)
 [![Latest Stable Version](https://poser.pugx.org/bluetree-service/simple-log/v/stable.svg)](https://packagist.org/packages/bluetree-service/simple-log)
 [![Total Downloads](https://poser.pugx.org/bluetree-service/simple-log/downloads.svg)](https://packagist.org/packages/bluetree-service/simple-log)
 [![License](https://poser.pugx.org/bluetree-service/simple-log/license.svg)](https://packagist.org/packages/bluetree-service/simple-log)
-[![Coverage Status](https://coveralls.io/repos/github/bluetree-service/simple-log/badge.svg?branch=master)](https://coveralls.io/github/bluetree-service/simple-log?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/68629008-9a24-4745-946b-1d995c3e3673/mini.png)](https://insight.sensiolabs.com/projects/68629008-9a24-4745-946b-1d995c3e3673)
-[![Code Climate](https://codeclimate.com/github/bluetree-service/simple-log/badges/gpa.svg)](https://codeclimate.com/github/bluetree-service/simple-log)
+
+##### Builds
+| Travis | Scrutinizer |
+|:---:|:---:|
+| [![Build Status](https://travis-ci.org/bluetree-service/simple-log.svg)](https://travis-ci.org/bluetree-service/simple-log) | [![Build Status](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/build-status/master) |
+
+##### Coverage
+| Coveralls | Scrutinizer |
+|:---:|:---:|
+| [![Coverage Status](https://coveralls.io/repos/github/bluetree-service/simple-log/badge.svg?branch=master)](https://coveralls.io/github/bluetree-service/simple-log?branch=master) | [![Code Coverage](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/?branch=master) |
+
+##### Quality
+| Code Climate | Scrutinizer | Sensio Labs |
+|:---:|:---:|:---:|
+| [![Code Climate](https://codeclimate.com/github/bluetree-service/simple-log/badges/gpa.svg)](https://codeclimate.com/github/bluetree-service/simple-log) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/?branch=master) | [![SensioLabsInsight](https://insight.sensiolabs.com/projects/68629008-9a24-4745-946b-1d995c3e3673/mini.png)](https://insight.sensiolabs.com/projects/68629008-9a24-4745-946b-1d995c3e3673) |
+|  | [![Code Intelligence Status](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence) |  |
 
 Simply way to create log message written directly into file.
 
