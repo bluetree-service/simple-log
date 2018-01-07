@@ -5,7 +5,7 @@ namespace SimpleLog;
 class LogStatic
 {
     /**
-     * @var null|Log
+     * @var Log
      */
     protected static $instance;
 

@@ -17,7 +17,8 @@ class Log implements LogInterface, LoggerInterface
     protected $defaultParams = [
         'log_path' => './log',
         'level' => 'notice',
-        'storage' => '\SimpleLog\Storage\File'
+        'storage' => \SimpleLog\Storage\File::class,
+        'message' => \Message\DefaultMessage::class,
     ];
 
     /**
@@ -65,7 +66,6 @@ class Log implements LogInterface, LoggerInterface
      * @param string $level
      * @param string|array|object $message
      * @param array $context
-     * @return $this
      * @throws \Psr\Log\InvalidArgumentException
      */
     public function log($level, $message, array $context = [])
@@ -80,8 +80,6 @@ class Log implements LogInterface, LoggerInterface
             ->wrapMessage()
             ->buildContext($context)
             ->storage->store($this->message, $level);
-
-        return $this;
     }
 
     /**
@@ -98,7 +96,7 @@ class Log implements LogInterface, LoggerInterface
      */
     protected function wrapMessage()
     {
-        $this->message = strftime('%d-%m-%Y - %H:%M:%S')
+        $this->message = strftime('%d-%m-%Y - %H:%M:%S', time())
             . PHP_EOL
             . $this->message
             . '-----------------------------------------------------------'
@@ -165,7 +163,7 @@ class Log implements LogInterface, LoggerInterface
     /**
      * recurrent function to convert array into message
      *
-     * @param string|array $message
+     * @param string|array|object $message
      * @param string $indent
      * @return $this
      * @throws \Psr\Log\InvalidArgumentException
@@ -195,7 +193,7 @@ class Log implements LogInterface, LoggerInterface
     }
 
     /**
-     * @param string $key
+     * @param string|int $key
      * @param mixed $value
      * @param string $indent
      * @return $this
