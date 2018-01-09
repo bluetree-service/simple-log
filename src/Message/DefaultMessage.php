@@ -70,15 +70,13 @@ class DefaultMessage implements MessageInterface
     protected function buildMessage($message, $indent = '')
     {
         switch (true) {
-            case is_object($message) && method_exists($message, '__toString'):
-            case is_string($message):
-                $this->message = $message . PHP_EOL;
+            case is_array($message):
+                $this->buildArrayMessage($message, $indent);
                 break;
 
-            case is_array($message):
-                foreach ($message as $key => $value) {
-                    $this->processMessage($key, $value, $indent);
-                }
+            case method_exists($message, '__toString'):
+            case is_string($message):
+                $this->message = $message . PHP_EOL;
                 break;
 
             default:
@@ -92,6 +90,17 @@ class DefaultMessage implements MessageInterface
     }
 
     /**
+     * @param array $message
+     * @param string $indent
+     */
+    protected function buildArrayMessage(array $message, $indent)
+    {
+        foreach ($message as $key => $value) {
+            $this->processMessage($key, $value, $indent);
+        }
+    }
+
+    /**
      * @param string|int $key
      * @param mixed $value
      * @param string $indent
@@ -99,18 +108,18 @@ class DefaultMessage implements MessageInterface
      */
     protected function processMessage($key, $value, $indent)
     {
-        if (is_int($key)) {
-            $key = '- ';
-        } else {
-            $key = '- ' . $key . ': ';
+        $row = '- ';
+
+        if (!is_int($key)) {
+            $row .= $key . ': ';
         }
 
         if (is_array($value)) {
             $indent .= '    ';
-            $this->message .= $key . PHP_EOL;
+            $this->message .= $row . PHP_EOL;
             $this->buildMessage($value, $indent);
         } else {
-            $this->message .= $indent . $key . $value . PHP_EOL;
+            $this->message .= $indent . $row . $value . PHP_EOL;
         }
 
         return $this;
