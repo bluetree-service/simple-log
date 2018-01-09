@@ -6,6 +6,8 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
 use Psr\Log\LogLevel;
 use Psr\Log\InvalidArgumentException;
+use SimpleLog\Storage\StorageInterface;
+use SimpleLog\Message\MessageInterface;
 
 class Log implements LogInterface, LoggerInterface
 {
@@ -18,7 +20,7 @@ class Log implements LogInterface, LoggerInterface
         'log_path' => './log',
         'level' => 'notice',
         'storage' => \SimpleLog\Storage\File::class,
-        'message' => \Message\DefaultMessage::class,
+        'message' => \SimpleLog\Message\DefaultMessage::class,
     ];
 
     /**
@@ -32,9 +34,9 @@ class Log implements LogInterface, LoggerInterface
     protected $levels = [];
 
     /**
-     * @var string
+     * @var \SimpleLog\Message\DefaultMessage
      */
-    protected $message = '';
+    protected $message;
 
     /**
      * @param array $params
@@ -48,6 +50,7 @@ class Log implements LogInterface, LoggerInterface
         $this->levels = $levels->getConstants();
 
         $this->reloadStorage();
+        $this->reloadMessage();
     }
 
     /**
@@ -70,16 +73,15 @@ class Log implements LogInterface, LoggerInterface
      */
     public function log($level, $message, array $context = [])
     {
-        $this->message = '';
-
         if (!in_array($level, $this->levels, true)) {
             throw new InvalidArgumentException('Level not defined: ' . $level);
         }
 
-        $this->buildMessage($message)
-            ->wrapMessage()
-            ->buildContext($context)
-            ->storage->store($this->message, $level);
+        $newMessage = $this->message
+            ->createMessage($message, $context)
+            ->getMessage();
+
+        $this->storage->store($newMessage, $level);
     }
 
     /**
@@ -87,6 +89,11 @@ class Log implements LogInterface, LoggerInterface
      */
     protected function reloadStorage()
     {
+        if ($this->defaultParams['storage'] instanceof StorageInterface) {
+            $this->storage = $this->defaultParams['storage'];
+            return $this;
+        }
+
         $this->storage = new $this->defaultParams['storage']($this->defaultParams);
         return $this;
     }
@@ -94,33 +101,14 @@ class Log implements LogInterface, LoggerInterface
     /**
      * @return $this
      */
-    protected function wrapMessage()
+    protected function reloadMessage()
     {
-        $this->message = strftime('%d-%m-%Y - %H:%M:%S', time())
-            . PHP_EOL
-            . $this->message
-            . '-----------------------------------------------------------'
-            . PHP_EOL;
-
-        return $this;
-    }
-
-    /**
-     * @param array $context
-     * @return $this
-     */
-    protected function buildContext(array $context)
-    {
-        $replace = [];
-
-        foreach ($context as $key => $val) {
-            if (!is_array($val) && (!is_object($val) || method_exists($val, '__toString'))) {
-                $replace['{' . $key . '}'] = $val;
-            }
+        if ($this->defaultParams['message'] instanceof MessageInterface) {
+            $this->message = $this->defaultParams['message'];
+            return $this;
         }
 
-        $this->message = strtr($this->message, $replace);
-
+        $this->message = new $this->defaultParams['message']($this->defaultParams);
         return $this;
     }
 
@@ -157,63 +145,6 @@ class Log implements LogInterface, LoggerInterface
      */
     public function getLastMessage()
     {
-        return $this->message;
-    }
-
-    /**
-     * recurrent function to convert array into message
-     *
-     * @param string|array|object $message
-     * @param string $indent
-     * @return $this
-     * @throws \Psr\Log\InvalidArgumentException
-     */
-    protected function buildMessage($message, $indent = '')
-    {
-        switch (true) {
-            case is_object($message) && method_exists($message, '__toString'):
-            case is_string($message):
-                $this->message = $message . PHP_EOL;
-                break;
-
-            case is_array($message):
-                foreach ($message as $key => $value) {
-                    $this->processMessage($key, $value, $indent);
-                }
-                break;
-
-            default:
-                throw new InvalidArgumentException(
-                    'Incorrect message type. Must be string, array or object with __toString method.'
-                );
-                break;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string|int $key
-     * @param mixed $value
-     * @param string $indent
-     * @return $this
-     */
-    protected function processMessage($key, $value, $indent)
-    {
-        if (is_int($key)) {
-            $key = '- ';
-        } else {
-            $key = '- ' . $key . ': ';
-        }
-
-        if (is_array($value)) {
-            $indent .= '    ';
-            $this->message .= $key . PHP_EOL;
-            $this->buildMessage($value, $indent);
-        } else {
-            $this->message .= $indent . $key . $value . PHP_EOL;
-        }
-
-        return $this;
+        return $this->message->getMessage();
     }
 }

@@ -5,6 +5,7 @@ namespace SimpleLog\Test;
 use SimpleLog\Log;
 use SimpleLog\LogStatic;
 use PHPUnit\Framework\TestCase;
+use SimpleLog\Message\DefaultMessage;
 
 class SimpleLogTest extends TestCase
 {
@@ -30,7 +31,7 @@ class SimpleLogTest extends TestCase
      */
     protected function setUp()
     {
-        $this->logPath = dirname(__FILE__) . '/log';
+        $this->logPath = __DIR__ . '/log';
 
         $this->tearDown();
     }
@@ -159,7 +160,8 @@ class SimpleLogTest extends TestCase
             [
                 'log_path' => $this->logPath,
                 'level' => 'warning',
-                'storage' => '\SimpleLog\Storage\File'
+                'storage' => 'SimpleLog\Storage\File',
+                'message' => DefaultMessage::class,
             ],
             $log->getOption()
         );
