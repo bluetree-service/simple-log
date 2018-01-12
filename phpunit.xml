@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit bootstrap="vendor/autoload.php" colors="true" convertWarningsToExceptions="false">
     <testsuites>
-        <testsuite name="bluetree-simple-log">
-            <directory>tests</directory>
+        <testsuite name="message">
+            <directory>tests/Message</directory>
+        </testsuite>
+        <testsuite name="storage">
+            <directory>tests/Storage</directory>
+        </testsuite>
+        <testsuite name="simple-log">
+            <file>tests/SimpleLogTest.php</file>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
 </phpunit>
