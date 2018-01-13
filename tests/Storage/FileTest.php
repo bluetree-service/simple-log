@@ -42,7 +42,7 @@ class FileTest extends TestCase
      */
     protected function setUp()
     {
-        $this->logPath = dirname(__FILE__) . '/../log';
+        $this->logPath = __DIR__ . '/../log';
         $this->fileConfig = ['log_path' => $this->logPath];
         $this->fullTestFilePath = $this->logPath . '/' . $this->testLog . '.log';
 
@@ -98,8 +98,8 @@ class FileTest extends TestCase
      */
     public function testExceptionDuringSaveLogFile()
     {
-        chmod(dirname(__FILE__) . '/../no_permission/notice.log', 0555);
-        (new File(['log_path' => dirname(__FILE__) . '/../no_permission']))
+        chmod(__DIR__ . '/../no_permission/notice.log', 0555);
+        (new File(['log_path' => __DIR__ . '/../no_permission']))
             ->store($this->testMessage[0], $this->testLog);
     }
 
