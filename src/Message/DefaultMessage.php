@@ -111,7 +111,7 @@ class DefaultMessage implements MessageInterface
         $row = '- ';
 
         if (!is_int($key)) {
-            $row .= $key . ': ';
+            $row .= $key . ':';
         }
 
         if (is_array($value)) {
@@ -119,7 +119,11 @@ class DefaultMessage implements MessageInterface
             $this->message .= $row . PHP_EOL;
             $this->buildMessage($value, $indent);
         } else {
-            $this->message .= $indent . $row . $value . PHP_EOL;
+            $this->message .= $indent
+                . $row
+                . (!$key ? '' : ' ')
+                . $value
+                . PHP_EOL;
         }
 
         return $this;
