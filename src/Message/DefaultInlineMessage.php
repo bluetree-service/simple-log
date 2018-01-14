@@ -30,7 +30,7 @@ class DefaultInlineMessage extends DefaultMessage
 
         if (is_array($value)) {
             $this->message .= $row;
-            $this->buildMessage(' | ' . $value);
+            $this->buildMessage($value);
         } else {
             $this->message .= $row . $value;
         }
