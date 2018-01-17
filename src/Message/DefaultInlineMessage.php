@@ -18,9 +18,10 @@ class DefaultInlineMessage extends DefaultMessage
     /**
      * @param string|int $key
      * @param mixed $value
+     * @param string $indent
      * @return $this
      */
-    protected function processMessage($key, $value)
+    protected function processMessage($key, $value, $indent)
     {
         $row = ' | ';
 
@@ -30,7 +31,7 @@ class DefaultInlineMessage extends DefaultMessage
 
         if (is_array($value)) {
             $this->message .= $row;
-            $this->buildMessage($value);
+            $this->buildMessage($value, $indent);
         } else {
             $this->message .= $row . $value;
         }
