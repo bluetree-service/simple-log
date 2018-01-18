@@ -4,6 +4,8 @@ namespace SimpleLog\Test;
 
 use SimpleLog\Log;
 use SimpleLog\LogStatic;
+use SimpleLog\Storage\File;
+use SimpleLog\Message\DefaultInlineMessage;
 use PHPUnit\Framework\TestCase;
 use SimpleLog\Message\DefaultMessage;
 
@@ -73,6 +75,35 @@ class SimpleLogTest extends TestCase
 
         //because of different time and date of creating log file, we remove first line with date
         $this->assertEquals($this->getSampleContent(), substr($content, strpos($content, "\n") +1));
+    }
+
+    public function testCreateSimpleLogWithOtherStorage()
+    {
+        $log = new Log([
+            'storage' => new File(
+                ['log_path' => $this->logPath]
+            )
+        ]);
+
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+
+        $log->makeLog('Some log message');
+
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
+    }
+
+    public function testCreateSimpleLogWithOtherMessage()
+    {
+        $log = new Log([
+            'message' => new DefaultInlineMessage,
+            'log_path' => $this->logPath,
+        ]);
+
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+
+        $log->makeLog('Some log message');
+
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
     }
 
     public function testGetLastMessage()

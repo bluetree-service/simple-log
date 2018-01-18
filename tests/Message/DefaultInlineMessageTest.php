@@ -7,16 +7,24 @@ use SimpleLog\Message\DefaultInlineMessage;
 
 class DefaultInlineMessageTest extends TestCase
 {
+    const DATE_FORMAT = '[\d]{2}-[\d]{2}-[\d]{4}';
+    const TIME_FORMAT = '[\d]{2}:[\d]{2}:[\d]{2}';
+    const DATE_TIME_FORMAT = self::DATE_FORMAT . ' - ' . self::TIME_FORMAT;
+
     public function testSimpleMessage()
     {
         $message = (new DefaultInlineMessage)->createMessage('Some log message', [])->getMessage();
+
+        $this->assertRegExp($this->getSampleContent(), $message);
+
+        $message = (new DefaultInlineMessage)->createMessage(new MessageObject('Some log message'), [])->getMessage();
 
         $this->assertRegExp($this->getSampleContent(), $message);
     }
 
     protected function getSampleContent()
     {
-        return '#\[[\d]{2}-[\d]{2}-[\d]{4} - [\d]{2}:[\d]{2}:[\d]{2}\] Some log message#';
+        return '#\[' . self::DATE_TIME_FORMAT . '] Some log message#';
     }
 
     public function testSimpleMessageWithArray()
@@ -33,7 +41,9 @@ class DefaultInlineMessageTest extends TestCase
 
     protected function getArrayMessageContent()
     {
-        return '#\[[\d]{2}-[\d]{2}-[\d]{4} - [\d]{2}:[\d]{2}:[\d]{2}\]'
+        return '#\['
+            . self::DATE_TIME_FORMAT
+            . ']'
             . '  \| message key:some message \| another key:some another message \| no key message#';
     }
 
@@ -55,7 +65,7 @@ class DefaultInlineMessageTest extends TestCase
 
     protected function getSubArrayMessageContent()
     {
-        return '#\[[\d]{2}-[\d]{2}-[\d]{4} - [\d]{2}:[\d]{2}:[\d]{2}\]  \| sub array: \| key:val \| key 2:val 2#';
+        return '#\[' . self::DATE_TIME_FORMAT . ']  \| sub array: \| key:val \| key 2:val 2#';
     }
 
     public function testMessageWithContext()
@@ -68,7 +78,7 @@ class DefaultInlineMessageTest extends TestCase
 
     protected function getSampleContentWithContext()
     {
-        return '#\[[\d]{2}-[\d]{2}-[\d]{4} - [\d]{2}:[\d]{2}:[\d]{2}\] Some log message with some value#';
+        return '#\[' . self::DATE_TIME_FORMAT . '] Some log message with some value#';
     }
 
     /**

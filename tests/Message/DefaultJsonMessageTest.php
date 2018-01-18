@@ -4,6 +4,7 @@ namespace SimpleLog\Test;
 
 use PHPUnit\Framework\TestCase;
 use SimpleLog\Message\DefaultJsonMessage;
+use SimpleLog\Test\DefaultInlineMessageTest as Inline;
 
 class DefaultJsonMessageTest extends TestCase
 {
@@ -16,7 +17,11 @@ class DefaultJsonMessageTest extends TestCase
 
     protected function getSampleContent()
     {
-        return '#{"date":"[\d]{2}-[\d]{2}-[\d]{4}","time":"[\d]{2}:[\d]{2}:[\d]{2}","data":"Some log message"}#';
+        return '#{"date":"'
+            . Inline::DATE_FORMAT
+            . '","time":"'
+            . Inline::TIME_FORMAT
+            . '","data":"Some log message"}#';
     }
 
     public function testSimpleMessageWithArray()
@@ -33,7 +38,11 @@ class DefaultJsonMessageTest extends TestCase
 
     protected function getArrayMessageContent()
     {
-        return '#{"date":"[\d]{2}-[\d]{2}-[\d]{4}","time":"[\d]{2}:[\d]{2}:[\d]{2}"'
+        return '#{"date":"'
+            . Inline::DATE_FORMAT
+            . '","time":"'
+            . Inline::TIME_FORMAT
+            . '"'
             . ',"data":{"message key":"some message","another key":"some another message","0":"no key message"}}#';
     }
 
@@ -55,7 +64,11 @@ class DefaultJsonMessageTest extends TestCase
 
     protected function getSubArrayMessageContent()
     {
-        return '#{"date":"[\d]{2}-[\d]{2}-[\d]{4}","time":"[\d]{2}:[\d]{2}:[\d]{2}"'
+        return '#{"date":"'
+            . Inline::DATE_FORMAT
+            . '","time":"'
+            . Inline::TIME_FORMAT
+            . '"'
             . ',"data":{"sub array":{"key":"val","key 2":"val 2"}}}#';
     }
 
@@ -69,7 +82,11 @@ class DefaultJsonMessageTest extends TestCase
 
     protected function getSampleContentWithContext()
     {
-        return '#{"date":"[\d]{2}-[\d]{2}-[\d]{4}","time":"[\d]{2}:[\d]{2}:[\d]{2}"'
+        return '#{"date":"'
+            . Inline::DATE_FORMAT
+            . '","time":"'
+            . Inline::TIME_FORMAT
+            . '"'
             . ',"data":"Some log message with some value"}#';
     }
 }
