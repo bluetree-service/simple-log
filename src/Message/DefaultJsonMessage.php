@@ -7,11 +7,7 @@ class DefaultJsonMessage extends DefaultMessage
     /**
      * @var array
      */
-    protected $message = [
-        'date' => '',
-        'time' => '',
-        'data' => '',
-    ];
+    protected $messageScheme = [];
 
     /**
      * @var array
@@ -29,14 +25,14 @@ class DefaultJsonMessage extends DefaultMessage
 
         list($date, $time) = explode(';', strftime('%d-%m-%Y;%H:%M:%S', time()));
 
-        $this->message['date'] = $date;
-        $this->message['time'] = $time;
+        $this->messageScheme['date'] = $date;
+        $this->messageScheme['time'] = $time;
 
         if (method_exists($message, '__toString')) {
             $message = (string)$message;
         }
 
-        $this->message['data'] = $message;
+        $this->messageScheme['data'] = $message;
 
         return $this;
     }
@@ -46,7 +42,7 @@ class DefaultJsonMessage extends DefaultMessage
      */
     public function getMessage()
     {
-        $this->message = json_encode($this->message);
+        $this->message = json_encode($this->messageScheme);
         $this->buildContext($this->context);
 
         return $this->message;

@@ -34,7 +34,7 @@ class Log implements LogInterface, LoggerInterface
     protected $levels = [];
 
     /**
-     * @var \SimpleLog\Message\DefaultMessage
+     * @var \SimpleLog\Message\MessageInterface
      */
     protected $message;
 
@@ -62,7 +62,9 @@ class Log implements LogInterface, LoggerInterface
      */
     public function makeLog($message, array $context = [])
     {
-        return $this->log($this->defaultParams['level'], $message, $context);
+        $this->log($this->defaultParams['level'], $message, $context);
+
+        return $this;
     }
 
     /**

@@ -7,6 +7,7 @@ interface MessageInterface
     /**
      * @param string|array|object $message
      * @param array $context
+     * @return $this
      */
     public function createMessage($message, array $context);
 

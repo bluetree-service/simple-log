@@ -16,12 +16,11 @@ class LogStatic
      * @param array|string $message
      * @param array $context
      * @param array $params
-     * @return Log
      */
     public static function log($level, $message, array $context = [], array $params = [])
     {
         self::init($params);
-        return self::$instance->log($level, $message, $context);
+        self::$instance->log($level, $message, $context);
     }
 
     /**
@@ -30,12 +29,11 @@ class LogStatic
      * @param array|string $message
      * @param array $context
      * @param array $params
-     * @return Log
      */
     public static function makeLog($message, array $context = [], array $params = [])
     {
         self::init($params);
-        return self::$instance->makeLog($message, $context);
+        self::$instance->makeLog($message, $context);
     }
 
     /**

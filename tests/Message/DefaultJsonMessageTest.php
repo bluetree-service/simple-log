@@ -13,6 +13,10 @@ class DefaultJsonMessageTest extends TestCase
         $message = (new DefaultJsonMessage)->createMessage('Some log message', [])->getMessage();
 
         $this->assertRegExp($this->getSampleContent(), $message);
+
+        $message = (new DefaultJsonMessage)->createMessage(new MessageObject('Some log message'), [])->getMessage();
+
+        $this->assertRegExp($this->getSampleContent(), $message);
     }
 
     protected function getSampleContent()
