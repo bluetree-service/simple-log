@@ -50,7 +50,8 @@ Available configuration options used by constructor:
 
 * **log_path** - path to save log file
 * **level** - log level (default ins notice)
-* **storage** - class that will be used for store log info (default `\SimpleLog\Storage\File`)
+* **storage** - class name that will be used for store log info (default `\SimpleLog\Storage\File`) or instance of class using `\SimpleLog\Storage\StorageInterface`
+* **message** - class name that will be used for create log message (default `\SimpleLog\Message\DefaultMessage`) or instance of class using `\SimpleLog\Message\MessageInterface`
 
 ### Static configuration
 
@@ -128,4 +129,34 @@ and val will be message that appear in log message.
 ```php
 LogStatic::makeLog('Some log {key}', ['key' => 'message']);
 LogStatic::log('notice', 'Some log {key}', ['key' => 'message']);
+```
+
+### Message formatting
+To return log information in some specified format we can use one of specified formatting class,
+or define own class that will be implement `\SimpleLog\Message\MessageInterface`.  
+To use own formatting class use `message` config.
+
+#### Default
+Default formatting class, return log in format showed in all examples.
+
+```
+28-06-2016 - 09:39:09
+- event_name: test_event
+- listener: ClassEvent\Test\EventDispatcherTest::trigger
+- status: ok
+-----------------------------------------------------------
+```
+
+#### Inline default
+Allow to return log in one line formatting, without line break.
+
+```
+[20-01-2018 - 12:04:53]  | sub array: | key:val | key 2:val 2
+```
+
+#### Json
+Return log in json format.
+
+```
+{"date":"20-01-2018","time":"12:04:53","data":{"sub array":{"key":"val","key 2":"val 2"}}}
 ```

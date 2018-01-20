@@ -35,6 +35,13 @@ To set different log directory use that command:
 LogStatic::setOption('log_path', '/var/log/simple-log');
 ```
 
+### Usage PSR-3
+
+Save simple log message into default log directory with level `error`:
+```php
+LogStatic::log('error', 'Some log message');
+```
+
 ---------------
 
 More information in:  

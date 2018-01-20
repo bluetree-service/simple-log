@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.7.1.0 - 2018-01-20
+### Added
+* Default, Inline and Json log messages for different log formats
+### Changed
+* Some refactor changes
+* Reduced technical dept, doc update
+
 ## 0.7.0.1 - 2018-01-06
 ### Added
 * Scrutinizer support
