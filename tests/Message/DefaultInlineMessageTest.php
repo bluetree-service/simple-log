@@ -7,7 +7,7 @@ use SimpleLog\Message\DefaultInlineMessage;
 
 class DefaultInlineMessageTest extends TestCase
 {
-    const DATE_FORMAT = '[\d]{2}-[\d]{2}-[\d]{4}';
+    const DATE_FORMAT = '[\d]{4}-[\d]{2}-[\d]{2}';
     const TIME_FORMAT = '[\d]{2}:[\d]{2}:[\d]{2}';
     const DATE_TIME_FORMAT = self::DATE_FORMAT . ' - ' . self::TIME_FORMAT;
 

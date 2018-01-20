@@ -9,7 +9,7 @@ class DefaultInlineMessage extends DefaultMessage
      */
     protected function wrapMessage()
     {
-        $date = strftime('%d-%m-%Y - %H:%M:%S', time());
+        $date = strftime(self::DATE_TIME_FORMAT, time());
         $this->message = '[' . $date . '] ' . $this->message;
 
         return $this;

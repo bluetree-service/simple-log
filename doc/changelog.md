@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 * Some refactor changes
 * Reduced technical dept, doc update
+* Changed date format into Y-M-D
 
 ## 0.7.0.1 - 2018-01-06
 ### Added

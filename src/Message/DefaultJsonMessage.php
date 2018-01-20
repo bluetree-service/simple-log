@@ -23,7 +23,7 @@ class DefaultJsonMessage extends DefaultMessage
     {
         $this->context = $context;
 
-        list($date, $time) = explode(';', strftime('%d-%m-%Y;%H:%M:%S', time()));
+        list($date, $time) = explode(';', strftime(self::DATE_FORMAT . ';' . self::TIME_FORMAT, time()));
 
         $this->messageScheme['date'] = $date;
         $this->messageScheme['time'] = $time;

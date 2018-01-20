@@ -50,7 +50,7 @@ class DefaultMessage implements MessageInterface
      */
     protected function wrapMessage()
     {
-        $this->message = strftime('%d-%m-%Y - %H:%M:%S', time())
+        $this->message = strftime(self::DATE_TIME_FORMAT, time())
             . PHP_EOL
             . $this->message
             . '-----------------------------------------------------------'

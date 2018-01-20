@@ -8,7 +8,7 @@ LogStatic::makeLog('Some log message');
 That will generate bellow log structure:
 
 ```
-28-06-2016 - 09:39:09
+2016-06-28 - 09:39:09
 Some log message
 -----------------------------------------------------------
 ```
@@ -102,7 +102,7 @@ LogStatic::makeLog($message);
 That will generate bellow structure:
 
 ```
-28-06-2016 - 09:39:09
+2016-06-28 - 09:39:09
 - event_name: test_event
 - listener: ClassEvent\Test\EventDispatcherTest::trigger
 - sub array:
@@ -113,7 +113,7 @@ That will generate bellow structure:
 
 Here is example of array message without nested arrays:  
 ```
-28-06-2016 - 09:39:09
+2016-06-28 - 09:39:09
 - event_name: test_event
 - listener: ClassEvent\Test\EventDispatcherTest::trigger
 - status: ok
@@ -140,7 +140,7 @@ To use own formatting class use `message` config.
 Default formatting class, return log in format showed in all examples.
 
 ```
-28-06-2016 - 09:39:09
+2016-06-28 - 09:39:09
 - event_name: test_event
 - listener: ClassEvent\Test\EventDispatcherTest::trigger
 - status: ok
@@ -151,12 +151,12 @@ Default formatting class, return log in format showed in all examples.
 Allow to return log in one line formatting, without line break.
 
 ```
-[20-01-2018 - 12:04:53]  | sub array: | key:val | key 2:val 2
+[2018-01-20 - 12:04:53]  | sub array: | key:val | key 2:val 2
 ```
 
 #### Json
 Return log in json format.
 
 ```
-{"date":"20-01-2018","time":"12:04:53","data":{"sub array":{"key":"val","key 2":"val 2"}}}
+{"date":"2018-01-20","time":"12:04:53","data":{"sub array":{"key":"val","key 2":"val 2"}}}
 ```
