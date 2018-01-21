@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.7.1.1 - 2018-01-21
+### Changed
+* Fixed composer dependencies
+
 ## 0.7.1.0 - 2018-01-20
 ### Added
 * Default, Inline and Json log messages for different log formats
