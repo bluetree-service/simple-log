@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.7.2.0 - 2018-08-13
+### Changed
+* Fixed merging messages and file save when multiple log method was executed
+
 ## 0.7.1.1 - 2018-01-21
 ### Changed
 * Fixed composer dependencies

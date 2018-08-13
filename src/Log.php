@@ -8,6 +8,8 @@ use Psr\Log\LogLevel;
 use Psr\Log\InvalidArgumentException;
 use SimpleLog\Storage\StorageInterface;
 use SimpleLog\Message\MessageInterface;
+use SimpleLog\Storage\File;
+use SimpleLog\Message\DefaultMessage;
 
 class Log implements LogInterface, LoggerInterface
 {
@@ -19,12 +21,12 @@ class Log implements LogInterface, LoggerInterface
     protected $defaultParams = [
         'log_path' => './log',
         'level' => 'notice',
-        'storage' => \SimpleLog\Storage\File::class,
-        'message' => \SimpleLog\Message\DefaultMessage::class,
+        'storage' => File::class,
+        'message' => DefaultMessage::class,
     ];
 
     /**
-     * @var \SimpleLog\Storage\StorageInterface
+     * @var StorageInterface
      */
     protected $storage;
 
@@ -34,9 +36,14 @@ class Log implements LogInterface, LoggerInterface
     protected $levels = [];
 
     /**
-     * @var \SimpleLog\Message\MessageInterface
+     * @var MessageInterface
      */
     protected $message;
+
+    /**
+     * @var MessageInterface
+     */
+    protected $lastMessage;
 
     /**
      * @param array $params
@@ -71,7 +78,7 @@ class Log implements LogInterface, LoggerInterface
      * @param string $level
      * @param string|array|object $message
      * @param array $context
-     * @throws \Psr\Log\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function log($level, $message, array $context = [])
     {
@@ -84,6 +91,8 @@ class Log implements LogInterface, LoggerInterface
             ->getMessage();
 
         $this->storage->store($newMessage, $level);
+        $this->lastMessage = $this->message;
+        $this->reloadMessage();
     }
 
     /**
@@ -147,6 +156,6 @@ class Log implements LogInterface, LoggerInterface
      */
     public function getLastMessage()
     {
-        return $this->message->getMessage();
+        return $this->lastMessage->getMessage();
     }
 }

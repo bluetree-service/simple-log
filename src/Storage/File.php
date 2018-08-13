@@ -31,7 +31,7 @@ class File implements StorageInterface
         $logFile = $this->params['log_path'] . DIRECTORY_SEPARATOR . $level . '.log';
 
         if (!file_exists($this->params['log_path'])) {
-            $bool = mkdir($this->params['log_path']);
+            $bool = @mkdir($this->params['log_path']);
 
             if (!$bool) {
                 throw new LogException('Unable to create log directory: ' . $this->params['log_path']);
@@ -42,7 +42,7 @@ class File implements StorageInterface
             $flag = FILE_APPEND;
         }
 
-        $bool = file_put_contents($logFile, $message, $flag);
+        $bool = @file_put_contents($logFile, $message, $flag | LOCK_EX);
 
         if (!$bool) {
             throw new LogException('Unable to save log file: ' . $logFile);

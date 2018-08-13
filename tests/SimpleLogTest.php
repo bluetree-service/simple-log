@@ -76,6 +76,29 @@ class SimpleLogTest extends TestCase
         //because of different time and date of creating log file, we remove first line with date
         $this->assertEquals($this->getSampleContent(), substr($content, strpos($content, "\n") +1));
     }
+    
+    /**
+     * simple create log object and create log message in given directory
+     */
+    public function testCreateMultipleSimpleLogMessage()
+    {
+        $log = new Log(['log_path' => $this->logPath]);
+
+        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+
+        $log->makeLog('Some log message');
+
+        $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
+
+        $log->makeLog('Some log message');
+
+        $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
+        //because of different time and date of creating log file, we remove first line with date
+        $this->assertEquals(
+            $this->getSampleContent() . $this->getSampleContent(),
+            preg_replace('#[\d]{4}-[\d]{2}-[\d]{2} - [\d]{2}:[\d]{2}:[\d]{2}\n#', '', $content)
+        );
+    }
 
     public function testCreateSimpleLogWithOtherStorage()
     {
