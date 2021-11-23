@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.9.0.1 - 2021-11-23
+### Changed
+* Test messages for different php versions
+* travis file update
+
 ## 0.9.0.0 - 2021-11-23
 ### Removed
 * PHP 7.1 & 7.2 support

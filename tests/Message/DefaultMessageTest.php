@@ -102,10 +102,17 @@ EOT;
 
     public function testMessageWithError(): void
     {
-        $this->expectExceptionMessage(
-            'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given'
-        );
-        $this->expectException(\TypeError::class);
+        if (\PHP_VERSION < '8.0.0') {
+            $this->expectExceptionMessage(
+                'Incorrect message type. Must be string, array or object with __toString method.'
+            );
+            $this->expectException(\Psr\Log\InvalidArgumentException::class);
+        } else {
+            $this->expectExceptionMessage(
+                'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given'
+            );
+            $this->expectException(\TypeError::class);
+        }
 
         (new DefaultMessage())->createMessage(32432, [])->getMessage();
     }
