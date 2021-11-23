@@ -14,12 +14,12 @@
         }
     ],
     "require": {
-        "php": ">=5.6.0",
+        "php": ">= 7.1",
         "psr/log": "1.0.*"
     },
     "require-dev": {
-        "satooshi/php-coveralls": "1.0.*",
-        "phpunit/phpunit": "4.8.35"
+        "php-coveralls/php-coveralls": "^2.5",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {

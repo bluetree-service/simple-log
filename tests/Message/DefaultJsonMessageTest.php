@@ -8,18 +8,19 @@ use SimpleLog\Test\DefaultInlineMessageTest as Inline;
 
 class DefaultJsonMessageTest extends TestCase
 {
-    public function testSimpleMessage()
+    public function testSimpleMessage(): void
     {
-        $message = (new DefaultJsonMessage)->createMessage('Some log message', [])->getMessage();
+        $message = (new DefaultJsonMessage())->createMessage('Some log message', [])->getMessage();
 
-        $this->assertRegExp($this->getSampleContent(), $message);
+        $this->assertMatchesRegularExpression($this->getSampleContent(), $message);
 
-        $message = (new DefaultJsonMessage)->createMessage(new MessageObject('Some log message'), [])->getMessage();
+        $message = (new DefaultJsonMessage())
+            ->createMessage(new MessageObject('Some log message'), [])->getMessage();
 
-        $this->assertRegExp($this->getSampleContent(), $message);
+        $this->assertMatchesRegularExpression($this->getSampleContent(), $message);
     }
 
-    protected function getSampleContent()
+    protected function getSampleContent(): string
     {
         return '#{"date":"'
             . Inline::DATE_FORMAT
@@ -28,19 +29,19 @@ class DefaultJsonMessageTest extends TestCase
             . '","data":"Some log message"}#';
     }
 
-    public function testSimpleMessageWithArray()
+    public function testSimpleMessageWithArray(): void
     {
         $content = [
             'message key' => 'some message',
             'another key' => 'some another message',
             'no key message',
         ];
-        $message = (new DefaultJsonMessage)->createMessage($content, [])->getMessage();
+        $message = (new DefaultJsonMessage())->createMessage($content, [])->getMessage();
 
-        $this->assertRegExp($this->getArrayMessageContent(), $message);
+        $this->assertMatchesRegularExpression($this->getArrayMessageContent(), $message);
     }
 
-    protected function getArrayMessageContent()
+    protected function getArrayMessageContent(): string
     {
         return '#{"date":"'
             . Inline::DATE_FORMAT
@@ -53,7 +54,7 @@ class DefaultJsonMessageTest extends TestCase
     /**
      * simple create log object and create log message from array with sub arrays data in given directory
      */
-    public function testCreateLogWithSubArrayMessage()
+    public function testCreateLogWithSubArrayMessage(): void
     {
         $content = [
             'sub array' => [
@@ -61,12 +62,12 @@ class DefaultJsonMessageTest extends TestCase
                 'key 2' => 'val 2',
             ],
         ];
-        $message = (new DefaultJsonMessage)->createMessage($content, [])->getMessage();
+        $message = (new DefaultJsonMessage())->createMessage($content, [])->getMessage();
 
-        $this->assertRegExp($this->getSubArrayMessageContent(), $message);
+        $this->assertMatchesRegularExpression($this->getSubArrayMessageContent(), $message);
     }
 
-    protected function getSubArrayMessageContent()
+    protected function getSubArrayMessageContent(): string
     {
         return '#{"date":"'
             . Inline::DATE_FORMAT
@@ -76,15 +77,16 @@ class DefaultJsonMessageTest extends TestCase
             . ',"data":{"sub array":{"key":"val","key 2":"val 2"}}}#';
     }
 
-    public function testMessageWithContext()
+    public function testMessageWithContext(): void
     {
         $context = ['context' => 'some value'];
-        $message = (new DefaultJsonMessage)->createMessage('Some log message with {context}', $context)->getMessage();
+        $message = (new DefaultJsonMessage())
+            ->createMessage('Some log message with {context}', $context)->getMessage();
 
-        $this->assertRegExp($this->getSampleContentWithContext(), $message);
+        $this->assertMatchesRegularExpression($this->getSampleContentWithContext(), $message);
     }
 
-    protected function getSampleContentWithContext()
+    protected function getSampleContentWithContext(): string
     {
         return '#{"date":"'
             . Inline::DATE_FORMAT

@@ -40,7 +40,7 @@ class FileTest extends TestCase
     /**
      * actions launched before test starts
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logPath = __DIR__ . '/../log';
         $this->fileConfig = ['log_path' => $this->logPath];
@@ -49,56 +49,53 @@ class FileTest extends TestCase
         $this->tearDown();
     }
 
-    public function testCreateLogFile()
+    public function testCreateLogFile(): void
     {
-        $this->assertFileNotExists($this->fullTestFilePath);
+        $this->assertFileDoesNotExist($this->fullTestFilePath);
 
         (new File($this->fileConfig))->store($this->testMessage[0], $this->testLog);
 
         $this->assertFileExists($this->fullTestFilePath);
 
-        $content = file_get_contents($this->fullTestFilePath);
+        $content = \file_get_contents($this->fullTestFilePath);
         $this->assertEquals($this->testMessage[0], $content);
     }
 
-    public function testAddMessageForExistingLog()
+    public function testAddMessageForExistingLog(): void
     {
         $storage = new File($this->fileConfig);
 
-        $this->assertFileNotExists($this->fullTestFilePath);
+        $this->assertFileDoesNotExist($this->fullTestFilePath);
 
         $storage->store($this->testMessage[0], $this->testLog);
 
         $this->assertFileExists($this->fullTestFilePath);
 
-        $content = file_get_contents($this->fullTestFilePath);
+        $content = \file_get_contents($this->fullTestFilePath);
         $this->assertEquals($this->testMessage[0], $content);
 
         $storage->store($this->testMessage[1], $this->testLog);
 
         $this->assertFileExists($this->fullTestFilePath);
 
-        $content = file_get_contents($this->fullTestFilePath);
+        $content = \file_get_contents($this->fullTestFilePath);
         $this->assertEquals($this->testMessage[0] . $this->testMessage[1], $content);
     }
 
-    /**
-     * @expectedException \SimpleLog\LogException
-     * @expectedExceptionMessage Unable to create log directory: /none/exists
-     */
-    public function testExceptionDuringCreateLogDirectory()
+    public function testExceptionDuringCreateLogDirectory(): void
     {
+        $this->expectExceptionMessage("Unable to create log directory: /none/exists");
+        $this->expectException(\SimpleLog\LogException::class);
+
         $storage = new File(['log_path' => '/none/exists']);
 
         $storage->store($this->testMessage[0], $this->testLog);
     }
 
-    /**
-     * @expectedException \SimpleLog\LogException
-     */
-    public function testExceptionDuringSaveLogFile()
+    public function testExceptionDuringSaveLogFile(): void
     {
-        chmod(__DIR__ . '/../no_permission/notice.log', 0555);
+        $this->expectException(\SimpleLog\LogException::class);
+        \chmod(__DIR__ . '/../no_permission/notice.log', 0555);
         (new File(['log_path' => __DIR__ . '/../no_permission']))
             ->store($this->testMessage[0], $this->testLog);
     }
@@ -106,10 +103,10 @@ class FileTest extends TestCase
     /**
      * actions launched after test was finished
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        if (file_exists($this->fullTestFilePath)) {
-            unlink($this->fullTestFilePath);
+        if (\file_exists($this->fullTestFilePath)) {
+            \unlink($this->fullTestFilePath);
         }
     }
 }

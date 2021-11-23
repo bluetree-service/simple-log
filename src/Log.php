@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SimpleLog;
 
 use Psr\Log\LoggerInterface;
@@ -47,13 +49,12 @@ class Log implements LogInterface, LoggerInterface
 
     /**
      * @param array $params
-     * @throws \ReflectionException
      */
     public function __construct(array $params = [])
     {
-        $this->defaultParams = array_merge($this->defaultParams, $params);
+        $this->defaultParams = \array_merge($this->defaultParams, $params);
 
-        $levels = new \ReflectionClass(new LogLevel);
+        $levels = new \ReflectionClass(new LogLevel());
         $this->levels = $levels->getConstants();
 
         $this->reloadStorage();
@@ -67,7 +68,7 @@ class Log implements LogInterface, LoggerInterface
      * @param array $context
      * @return $this
      */
-    public function makeLog($message, array $context = [])
+    public function makeLog($message, array $context = []): LogInterface
     {
         $this->log($this->defaultParams['level'], $message, $context);
 
@@ -82,7 +83,7 @@ class Log implements LogInterface, LoggerInterface
      */
     public function log($level, $message, array $context = [])
     {
-        if (!in_array($level, $this->levels, true)) {
+        if (!\in_array($level, $this->levels, true)) {
             throw new InvalidArgumentException('Level not defined: ' . $level);
         }
 
@@ -98,7 +99,7 @@ class Log implements LogInterface, LoggerInterface
     /**
      * @return $this
      */
-    protected function reloadStorage()
+    protected function reloadStorage(): LogInterface
     {
         if ($this->defaultParams['storage'] instanceof StorageInterface) {
             $this->storage = $this->defaultParams['storage'];
@@ -112,7 +113,7 @@ class Log implements LogInterface, LoggerInterface
     /**
      * @return $this
      */
-    protected function reloadMessage()
+    protected function reloadMessage(): LogInterface
     {
         if ($this->defaultParams['message'] instanceof MessageInterface) {
             $this->message = $this->defaultParams['message'];
@@ -130,7 +131,7 @@ class Log implements LogInterface, LoggerInterface
      * @param mixed $val
      * @return $this
      */
-    public function setOption($key, $val)
+    public function setOption(string $key, $val): LogInterface
     {
         $this->defaultParams[$key] = $val;
         return $this->reloadStorage();
@@ -142,9 +143,9 @@ class Log implements LogInterface, LoggerInterface
      * @param null|string $key
      * @return array|mixed
      */
-    public function getOption($key = null)
+    public function getOption(?string $key = null)
     {
-        if (is_null($key)) {
+        if ($key === null) {
             return $this->defaultParams;
         }
 
@@ -154,7 +155,7 @@ class Log implements LogInterface, LoggerInterface
     /**
      * @return string
      */
-    public function getLastMessage()
+    public function getLastMessage(): string
     {
         return $this->lastMessage->getMessage();
     }

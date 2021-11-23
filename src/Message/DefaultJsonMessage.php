@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SimpleLog\Message;
 
 class DefaultJsonMessage extends DefaultMessage
@@ -19,16 +21,16 @@ class DefaultJsonMessage extends DefaultMessage
      * @param array $context
      * @return $this
      */
-    public function createMessage($message, array $context)
+    public function createMessage($message, array $context): MessageInterface
     {
         $this->context = $context;
 
-        list($date, $time) = explode(';', strftime(self::DATE_FORMAT . ';' . self::TIME_FORMAT, time()));
+        [$date, $time] = $this->dateTimeSplit();
 
         $this->messageScheme['date'] = $date;
         $this->messageScheme['time'] = $time;
 
-        if (method_exists($message, '__toString')) {
+        if (!\is_array($message) && \method_exists($message, '__toString')) {
             $message = (string)$message;
         }
 
@@ -40,9 +42,9 @@ class DefaultJsonMessage extends DefaultMessage
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
-        $this->message = json_encode($this->messageScheme);
+        $this->message = \json_encode($this->messageScheme);
         $this->buildContext($this->context);
 
         return $this->message;

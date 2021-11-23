@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SimpleLog;
 
 class LogStatic
@@ -16,8 +18,9 @@ class LogStatic
      * @param array|string $message
      * @param array $context
      * @param array $params
+     * @throws \ReflectionException
      */
-    public static function log($level, $message, array $context = [], array $params = [])
+    public static function log(string $level, $message, array $context = [], array $params = []): void
     {
         self::init($params);
         self::$instance->log($level, $message, $context);
@@ -29,8 +32,9 @@ class LogStatic
      * @param array|string $message
      * @param array $context
      * @param array $params
+     * @throws \ReflectionException
      */
-    public static function makeLog($message, array $context = [], array $params = [])
+    public static function makeLog($message, array $context = [], array $params = []): void
     {
         self::init($params);
         self::$instance->makeLog($message, $context);
@@ -42,8 +46,9 @@ class LogStatic
      * @param string $key
      * @param mixed $val
      * @return Log
+     * @throws \ReflectionException
      */
-    public static function setOption($key, $val)
+    public static function setOption(string $key, $val): Log
     {
         self::init();
         return self::$instance->setOption($key, $val);
@@ -54,8 +59,9 @@ class LogStatic
      *
      * @param null|string $key
      * @return array|mixed
+     * @throws \ReflectionException
      */
-    public static function getOption($key = null)
+    public static function getOption(?string $key = null)
     {
         self::init();
         return self::$instance->getOption($key);
@@ -65,8 +71,9 @@ class LogStatic
      * create Log object if not exists
      *
      * @param array $params
+     * @throws \ReflectionException
      */
-    protected static function init(array $params = [])
+    protected static function init(array $params = []): void
     {
         if (is_null(self::$instance)) {
             self::$instance = new Log($params);

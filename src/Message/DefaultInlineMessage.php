@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SimpleLog\Message;
 
 class DefaultInlineMessage extends DefaultMessage
@@ -7,9 +9,9 @@ class DefaultInlineMessage extends DefaultMessage
     /**
      * @return $this
      */
-    protected function wrapMessage()
+    protected function wrapMessage(): MessageInterface
     {
-        $date = strftime(self::DATE_TIME_FORMAT, time());
+        $date = $this->dateTime();
         $this->message = '[' . $date . '] ' . $this->message;
 
         return $this;
@@ -21,15 +23,15 @@ class DefaultInlineMessage extends DefaultMessage
      * @param string $indent
      * @return $this
      */
-    protected function processMessage($key, $value, $indent)
+    protected function processMessage($key, $value, string $indent): MessageInterface
     {
         $row = ' | ';
 
-        if (!is_int($key)) {
+        if (!\is_int($key)) {
             $row .= $key . ':';
         }
 
-        if (is_array($value)) {
+        if (\is_array($value)) {
             $this->message .= $row;
             $this->buildMessage($value, $indent);
         } else {

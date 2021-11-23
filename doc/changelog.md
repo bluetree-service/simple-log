@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.8.0.0 - 2021-11-23
+### Added
+* PHP 7.2, 7.3, 7.4, 8.0 support
+* Type declarations
+### Removed
+* PHP 5.6 & 7.0 support
+* composer.lock from repository
+### Changed
+* Some required libraries version
+* Some minor changes in code style
+* Badges
+
 ## 0.7.2.0 - 2018-08-13
 ### Changed
 * Fixed merging messages and file save when multiple log method was executed

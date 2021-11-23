@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SimpleLog\Storage;
 
 interface StorageInterface
@@ -16,5 +18,5 @@ interface StorageInterface
      * @param string $level
      * @return StorageInterface
      */
-    public function store($message, $level);
+    public function store(string $message, string $level): StorageInterface;
 }

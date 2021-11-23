@@ -14,12 +14,12 @@ class SimpleLogTest extends TestCase
     /**
      * name of test event log file
      */
-    const NOTICE_LOG_NAME = '/notice.log';
+    public const NOTICE_LOG_NAME = '/notice.log';
 
     /**
      * name of test event log file
      */
-    const WARNING_LOG_NAME = '/warning.log';
+    public const WARNING_LOG_NAME = '/warning.log';
 
     /**
      * store generated log file path
@@ -31,29 +31,29 @@ class SimpleLogTest extends TestCase
     /**
      * actions launched before test starts
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logPath = __DIR__ . '/log';
 
         $this->tearDown();
     }
 
-    /**
-     * @expectedException \Psr\Log\InvalidArgumentException
-     * @expectedExceptionMessage Level not defined: incorrect
-     */
-    public function testCreateLogMessageWithIncorrectLevel()
+    public function testCreateLogMessageWithIncorrectLevel(): void
     {
+        $this->expectExceptionMessage("Level not defined: incorrect");
+        $this->expectException(\Psr\Log\InvalidArgumentException::class);
+
         (new Log(['log_path' => $this->logPath]))
             ->log('incorrect', 'Some log message');
     }
 
-    /**
-     * @expectedException \Psr\Log\InvalidArgumentException
-     * @expectedExceptionMessage Incorrect message type. Must be string, array or object with __toString method.
-     */
-    public function testCreateIncorrectLogMessage()
+    public function testCreateIncorrectLogMessage(): void
     {
+        $this->expectExceptionMessage(
+            'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given'
+        );
+        $this->expectException(\TypeError::class);
+
         (new Log(['log_path' => $this->logPath]))
             ->makeLog(12312312);
     }
@@ -61,11 +61,11 @@ class SimpleLogTest extends TestCase
     /**
      * simple create log object and create log message in given directory
      */
-    public function testCreateSimpleLogMessage()
+    public function testCreateSimpleLogMessage(): void
     {
         $log = new Log(['log_path' => $this->logPath]);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog('Some log message');
 
@@ -74,17 +74,17 @@ class SimpleLogTest extends TestCase
         $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
 
         //because of different time and date of creating log file, we remove first line with date
-        $this->assertEquals($this->getSampleContent(), substr($content, strpos($content, "\n") +1));
+        $this->assertEquals($this->getSampleContent(), \substr($content, \strpos($content, "\n") + 1));
     }
-    
+
     /**
      * simple create log object and create log message in given directory
      */
-    public function testCreateMultipleSimpleLogMessage()
+    public function testCreateMultipleSimpleLogMessage(): void
     {
         $log = new Log(['log_path' => $this->logPath]);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog('Some log message');
 
@@ -92,15 +92,15 @@ class SimpleLogTest extends TestCase
 
         $log->makeLog('Some log message');
 
-        $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
+        $content = \file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
         //because of different time and date of creating log file, we remove first line with date
         $this->assertEquals(
             $this->getSampleContent() . $this->getSampleContent(),
-            preg_replace('#[\d]{4}-[\d]{2}-[\d]{2} - [\d]{2}:[\d]{2}:[\d]{2}\n#', '', $content)
+            \preg_replace('#[\d]{4}-[\d]{2}-[\d]{2} - [\d]{2}:[\d]{2}:[\d]{2}\n#', '', $content)
         );
     }
 
-    public function testCreateSimpleLogWithOtherStorage()
+    public function testCreateSimpleLogWithOtherStorage(): void
     {
         $log = new Log([
             'storage' => new File(
@@ -108,28 +108,28 @@ class SimpleLogTest extends TestCase
             )
         ]);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog('Some log message');
 
         $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
     }
 
-    public function testCreateSimpleLogWithOtherMessage()
+    public function testCreateSimpleLogWithOtherMessage(): void
     {
         $log = new Log([
-            'message' => new DefaultInlineMessage,
+            'message' => new DefaultInlineMessage(),
             'log_path' => $this->logPath,
         ]);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog('Some log message');
 
         $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
     }
 
-    public function testGetLastMessage()
+    public function testGetLastMessage(): void
     {
         $log = new Log(['log_path' => $this->logPath]);
 
@@ -137,17 +137,17 @@ class SimpleLogTest extends TestCase
 
         $content = $log->getLastMessage();
         //because of different time and date of creating log file, we remove first line with date
-        $this->assertEquals($this->getSampleContent(), substr($content, strpos($content, "\n") +1));
+        $this->assertEquals($this->getSampleContent(), substr($content, strpos($content, "\n") + 1));
     }
 
     /**
      * simple create log object and create log message from array data in given directory
      */
-    public function testCreateLogWithArrayMessage()
+    public function testCreateLogWithArrayMessage(): void
     {
         $log = new Log(['log_path' => $this->logPath]);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog(
             [
@@ -162,17 +162,17 @@ class SimpleLogTest extends TestCase
         $content = file_get_contents($this->logPath . self::NOTICE_LOG_NAME);
 
         //because of different time and date of creating log file, we remove first line with date
-        $this->assertEquals($this->getArrayMessageContent(), substr($content, strpos($content, "\n") +1));
+        $this->assertEquals($this->getArrayMessageContent(), substr($content, strpos($content, "\n") + 1));
     }
 
     /**
      * simple create log object and create log message from array with sub arrays data in given directory
      */
-    public function testCreateLogWithSubArrayMessage()
+    public function testCreateLogWithSubArrayMessage(): void
     {
         $log = new Log(['log_path' => $this->logPath]);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog(
             [
@@ -191,18 +191,18 @@ class SimpleLogTest extends TestCase
         //hack with remove new lines because of differences between output and stored expectation
         $this->assertEquals(
             str_replace("\n", '', $this->getSubArrayMessageContent()),
-            str_replace("\n", '', substr($content, strpos($content, "\n") +1))
+            str_replace("\n", '', substr($content, strpos($content, "\n") + 1))
         );
     }
 
     /**
      * test setting and getting options via specified methods
      */
-    public function testCreateLogObjectWithOtherConfig()
+    public function testCreateLogObjectWithOtherConfig(): void
     {
-        $log = new Log;
+        $log = new Log();
 
-        $this->assertFileNotExists($this->logPath . self::WARNING_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::WARNING_LOG_NAME);
 
         $log->setOption('log_path', $this->logPath)
             ->setOption('level', 'warning')
@@ -224,11 +224,11 @@ class SimpleLogTest extends TestCase
     /**
      * check static log interface
      */
-    public function testCreateStaticMakeLog()
+    public function testCreateStaticMakeLog(): void
     {
         LogStatic::setOption('log_path', $this->logPath);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
         $this->assertEquals($this->logPath, LogStatic::getOption('log_path'));
 
         LogStatic::makeLog('Some log message');
@@ -239,11 +239,11 @@ class SimpleLogTest extends TestCase
     /**
      * check static log interface
      */
-    public function testCreateStaticLog()
+    public function testCreateStaticLog(): void
     {
         LogStatic::setOption('log_path', $this->logPath);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
         $this->assertEquals($this->logPath, LogStatic::getOption('log_path'));
 
         LogStatic::log('notice', 'Some log message');
@@ -251,11 +251,11 @@ class SimpleLogTest extends TestCase
         $this->assertFileExists($this->logPath . self::NOTICE_LOG_NAME);
     }
 
-    public function testLogWithContext()
+    public function testLogWithContext(): void
     {
         $log = new Log(['log_path' => $this->logPath]);
 
-        $this->assertFileNotExists($this->logPath . self::NOTICE_LOG_NAME);
+        $this->assertFileDoesNotExist($this->logPath . self::NOTICE_LOG_NAME);
 
         $log->makeLog('Some log message with {context}', ['context' => 'some value']);
 
@@ -266,11 +266,11 @@ class SimpleLogTest extends TestCase
         //because of different time and date of creating log file, we remove first line with date
         $this->assertEquals(
             $this->getSampleContentWithContext(),
-            substr($content, strpos($content, "\n") +1)
+            substr($content, strpos($content, "\n") + 1)
         );
     }
 
-    protected function getSampleContent()
+    protected function getSampleContent(): string
     {
         return <<<EOT
 Some log message
@@ -279,7 +279,7 @@ Some log message
 EOT;
     }
 
-    protected function getSampleContentWithContext()
+    protected function getSampleContentWithContext(): string
     {
         return <<<EOT
 Some log message with some value
@@ -288,7 +288,7 @@ Some log message with some value
 EOT;
     }
 
-    protected function getArrayMessageContent()
+    protected function getArrayMessageContent(): string
     {
         return <<<EOT
 - message key: some message
@@ -299,7 +299,7 @@ EOT;
 EOT;
     }
 
-    protected function getSubArrayMessageContent()
+    protected function getSubArrayMessageContent(): string
     {
         return <<<EOT
 - sub array:
@@ -313,18 +313,18 @@ EOT;
     /**
      * actions launched after test was finished
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        if (file_exists($this->logPath . self::NOTICE_LOG_NAME)) {
-            unlink($this->logPath . self::NOTICE_LOG_NAME);
+        if (\file_exists($this->logPath . self::NOTICE_LOG_NAME)) {
+            \unlink($this->logPath . self::NOTICE_LOG_NAME);
         }
 
-        if (file_exists($this->logPath . self::WARNING_LOG_NAME)) {
-            unlink($this->logPath . self::WARNING_LOG_NAME);
+        if (\file_exists($this->logPath . self::WARNING_LOG_NAME)) {
+            \unlink($this->logPath . self::WARNING_LOG_NAME);
         }
 
-        if (file_exists($this->logPath)) {
-            rmdir($this->logPath);
+        if (\file_exists($this->logPath)) {
+            \rmdir($this->logPath);
         }
     }
 }

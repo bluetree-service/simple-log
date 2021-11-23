@@ -8,7 +8,7 @@ Simple Log
 ##### Builds
 | Travis | Scrutinizer |
 |:---:|:---:|
-| [![Build Status](https://travis-ci.org/bluetree-service/simple-log.svg)](https://travis-ci.org/bluetree-service/simple-log) | [![Build Status](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/build-status/master) |
+| [![Build Status](https://app.travis-ci.com/bluetree-service/simple-log.svg?branch=master)](https://app.travis-ci.com/github/bluetree-service/simple-log) | [![Build Status](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/build-status/master) |
 
 ##### Coverage
 | Coveralls | Scrutinizer |
@@ -16,9 +16,9 @@ Simple Log
 | [![Coverage Status](https://coveralls.io/repos/github/bluetree-service/simple-log/badge.svg?branch=master)](https://coveralls.io/github/bluetree-service/simple-log?branch=master) | [![Code Coverage](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/?branch=master) |
 
 ##### Quality
-| Code Climate | Scrutinizer | Sensio Labs |
+| Code Climate | Scrutinizer | SymfonyInsight |
 |:---:|:---:|:---:|
-| [![Code Climate](https://codeclimate.com/github/bluetree-service/simple-log/badges/gpa.svg)](https://codeclimate.com/github/bluetree-service/simple-log) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/?branch=master) | [![SensioLabsInsight](https://insight.sensiolabs.com/projects/68629008-9a24-4745-946b-1d995c3e3673/mini.png)](https://insight.sensiolabs.com/projects/68629008-9a24-4745-946b-1d995c3e3673) |
+| [![Code Climate](https://codeclimate.com/github/bluetree-service/simple-log/badges/gpa.svg)](https://codeclimate.com/github/bluetree-service/simple-log) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/?branch=master) | [![SymfonyInsight](https://insight.symfony.com/projects/32a9a415-754b-497d-b345-320381fbdc20/mini.svg)](https://insight.symfony.com/projects/32a9a415-754b-497d-b345-320381fbdc20) |
 |  | [![Code Intelligence Status](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence) |  |
 
 Simply way to create log message written directly into file.
@@ -72,7 +72,7 @@ Project description
 
 ### Requirements
 
-* PHP 5.5 or higher
+* PHP 7.1 or higher
 
 Change log
 --------------

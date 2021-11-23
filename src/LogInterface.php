@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SimpleLog;
 
 interface LogInterface
@@ -11,7 +13,7 @@ interface LogInterface
      * @param array $context
      * @return $this
      */
-    public function makeLog($message, array $context = []);
+    public function makeLog($message, array $context = []): LogInterface;
 
     /**
      * set log option for all future executions of makeLog
@@ -20,7 +22,7 @@ interface LogInterface
      * @param mixed $val
      * @return $this
      */
-    public function setOption($key, $val);
+    public function setOption(string $key, $val): LogInterface;
 
     /**
      * return all configuration or only given key value
@@ -28,5 +30,5 @@ interface LogInterface
      * @param null|string $key
      * @return array|mixed
      */
-    public function getOption($key = null);
+    public function getOption(?string $key = null);
 }

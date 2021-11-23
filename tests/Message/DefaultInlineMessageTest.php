@@ -7,39 +7,40 @@ use SimpleLog\Message\DefaultInlineMessage;
 
 class DefaultInlineMessageTest extends TestCase
 {
-    const DATE_FORMAT = '[\d]{4}-[\d]{2}-[\d]{2}';
-    const TIME_FORMAT = '[\d]{2}:[\d]{2}:[\d]{2}';
-    const DATE_TIME_FORMAT = self::DATE_FORMAT . ' - ' . self::TIME_FORMAT;
+    public const DATE_FORMAT = '[\d]{4}-[\d]{2}-[\d]{2}';
+    public const TIME_FORMAT = '[\d]{2}:[\d]{2}:[\d]{2}';
+    public const DATE_TIME_FORMAT = self::DATE_FORMAT . ' - ' . self::TIME_FORMAT;
 
-    public function testSimpleMessage()
+    public function testSimpleMessage(): void
     {
-        $message = (new DefaultInlineMessage)->createMessage('Some log message', [])->getMessage();
+        $message = (new DefaultInlineMessage())->createMessage('Some log message', [])->getMessage();
 
-        $this->assertRegExp($this->getSampleContent(), $message);
+        $this->assertMatchesRegularExpression($this->getSampleContent(), $message);
 
-        $message = (new DefaultInlineMessage)->createMessage(new MessageObject('Some log message'), [])->getMessage();
+        $message = (new DefaultInlineMessage())
+            ->createMessage(new MessageObject('Some log message'), [])->getMessage();
 
-        $this->assertRegExp($this->getSampleContent(), $message);
+        $this->assertMatchesRegularExpression($this->getSampleContent(), $message);
     }
 
-    protected function getSampleContent()
+    protected function getSampleContent(): string
     {
         return '#\[' . self::DATE_TIME_FORMAT . '] Some log message#';
     }
 
-    public function testSimpleMessageWithArray()
+    public function testSimpleMessageWithArray(): void
     {
         $content = [
             'message key' => 'some message',
             'another key' => 'some another message',
             'no key message',
         ];
-        $message = (new DefaultInlineMessage)->createMessage($content, [])->getMessage();
+        $message = (new DefaultInlineMessage())->createMessage($content, [])->getMessage();
 
-        $this->assertRegExp($this->getArrayMessageContent(), $message);
+        $this->assertMatchesRegularExpression($this->getArrayMessageContent(), $message);
     }
 
-    protected function getArrayMessageContent()
+    protected function getArrayMessageContent(): string
     {
         return '#\['
             . self::DATE_TIME_FORMAT
@@ -50,7 +51,7 @@ class DefaultInlineMessageTest extends TestCase
     /**
      * simple create log object and create log message from array with sub arrays data in given directory
      */
-    public function testCreateLogWithSubArrayMessage()
+    public function testCreateLogWithSubArrayMessage(): void
     {
         $content = [
             'sub array' => [
@@ -58,35 +59,37 @@ class DefaultInlineMessageTest extends TestCase
                 'key 2' => 'val 2',
             ],
         ];
-        $message = (new DefaultInlineMessage)->createMessage($content, [])->getMessage();
+        $message = (new DefaultInlineMessage())->createMessage($content, [])->getMessage();
 
-        $this->assertRegExp($this->getSubArrayMessageContent(), $message);
+        $this->assertMatchesRegularExpression($this->getSubArrayMessageContent(), $message);
     }
 
-    protected function getSubArrayMessageContent()
+    protected function getSubArrayMessageContent(): string
     {
         return '#\[' . self::DATE_TIME_FORMAT . ']  \| sub array: \| key:val \| key 2:val 2#';
     }
 
-    public function testMessageWithContext()
+    public function testMessageWithContext(): void
     {
         $context = ['context' => 'some value'];
-        $message = (new DefaultInlineMessage)->createMessage('Some log message with {context}', $context)->getMessage();
+        $message = (new DefaultInlineMessage())
+            ->createMessage('Some log message with {context}', $context)->getMessage();
 
-        $this->assertRegExp($this->getSampleContentWithContext(), $message);
+        $this->assertMatchesRegularExpression($this->getSampleContentWithContext(), $message);
     }
 
-    protected function getSampleContentWithContext()
+    protected function getSampleContentWithContext(): string
     {
         return '#\[' . self::DATE_TIME_FORMAT . '] Some log message with some value#';
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Incorrect message type. Must be string, array or object with __toString method.
-     */
-    public function testMessageWithError()
+    public function testMessageWithError(): void
     {
-        (new DefaultInlineMessage)->createMessage(32432, [])->getMessage();
+        $this->expectExceptionMessage(
+            'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given'
+        );
+        $this->expectException(\TypeError::class);
+
+        (new DefaultInlineMessage())->createMessage(32432, [])->getMessage();
     }
 }
