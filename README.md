@@ -1,25 +1,24 @@
 Simple Log
 =========
 
-[![Latest Stable Version](https://poser.pugx.org/bluetree-service/simple-log/v/stable.svg)](https://packagist.org/packages/bluetree-service/simple-log)
-[![Total Downloads](https://poser.pugx.org/bluetree-service/simple-log/downloads.svg)](https://packagist.org/packages/bluetree-service/simple-log)
-[![License](https://poser.pugx.org/bluetree-service/simple-log/license.svg)](https://packagist.org/packages/bluetree-service/simple-log)
+[![Latest Stable Version](https://poser.pugx.org/bluetree-service/simple-log/v/stable.svg?style=flat-square)](https://packagist.org/packages/bluetree-service/simple-log)
+[![Total Downloads](https://poser.pugx.org/bluetree-service/simple-log/downloads.svg?style=flat-square)](https://packagist.org/packages/bluetree-service/simple-log)
+[![License](https://poser.pugx.org/bluetree-service/simple-log/license.svg?style=flat-square)](https://packagist.org/packages/bluetree-service/simple-log)
 
-##### Builds
-| Travis | Scrutinizer |
-|:---:|:---:|
-| [![Build Status](https://app.travis-ci.com/bluetree-service/simple-log.svg?branch=master)](https://app.travis-ci.com/github/bluetree-service/simple-log) | [![Build Status](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/build-status/master) |
+[![Build Status](https://travis-ci.org/bluetree-service/simple-log.svg?style=flat-square)](https://travis-ci.org/bluetree-service/simple-log)
+[![Coverage Status](https://coveralls.io/repos/github/bluetree-service/simple-log/badge.svg?style=flat-square&branch=master)](https://coveralls.io/github/bluetree-service/simple-log?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/build.png?style=flat-square&b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/coverage.png?style=flat-square&b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/?branch=master)
 
-##### Coverage
-| Coveralls | Scrutinizer |
-|:---:|:---:|
-| [![Coverage Status](https://coveralls.io/repos/github/bluetree-service/simple-log/badge.svg?branch=master)](https://coveralls.io/github/bluetree-service/simple-log?branch=master) | [![Code Coverage](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/?branch=master) |
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bluetree-service_simple-log&metric=bugs)](https://sonarcloud.io/summary/new_code?id=bluetree-service_simple-log)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=bluetree-service_simple-log&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=bluetree-service_simple-log)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=bluetree-service_simple-log&metric=coverage)](https://sonarcloud.io/summary/new_code?id=bluetree-service_simple-log)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bluetree-service_simple-log&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=bluetree-service_simple-log)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bluetree-service_simple-log&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=bluetree-service_simple-log)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bluetree-service_simple-log&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=bluetree-service_simple-log)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=bluetree-service_simple-log&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=bluetree-service_simple-log)
 
-##### Quality
-| Code Climate | Scrutinizer | SymfonyInsight |
-|:---:|:---:|:---:|
-| [![Code Climate](https://codeclimate.com/github/bluetree-service/simple-log/badges/gpa.svg)](https://codeclimate.com/github/bluetree-service/simple-log) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bluetree-service/simple-log/?branch=master) | [![SymfonyInsight](https://insight.symfony.com/projects/32a9a415-754b-497d-b345-320381fbdc20/mini.svg)](https://insight.symfony.com/projects/32a9a415-754b-497d-b345-320381fbdc20) |
-|  | [![Code Intelligence Status](https://scrutinizer-ci.com/g/bluetree-service/simple-log/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence) |  |
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=bluetree-service_simple-log)
 
 Simply way to create log message written directly into file.
 
@@ -72,7 +71,7 @@ Project description
 
 ### Requirements
 
-* PHP 7.3 or higher
+* PHP 8.2 or higher
 
 Change log
 --------------
