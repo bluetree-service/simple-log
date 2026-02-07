@@ -11,11 +11,11 @@ interface MessageInterface
     public const DATE_TIME_FORMAT = self::DATE_FORMAT . ' - ' . self::TIME_FORMAT;
 
     /**
-     * @param string|array|object $message
+     * @param string|array $message
      * @param array $context
      * @return $this
      */
-    public function createMessage($message, array $context): MessageInterface;
+    public function createMessage(string|array $message, array $context): MessageInterface;
 
     /**
      * @return string

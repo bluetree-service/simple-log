@@ -9,7 +9,7 @@ class LogStatic
     /**
      * @var Log
      */
-    protected static $instance;
+    protected static Log $instance;
 
     /**
      * log event information into file
@@ -20,7 +20,7 @@ class LogStatic
      * @param array $params
      * @throws \ReflectionException
      */
-    public static function log(string $level, $message, array $context = [], array $params = []): void
+    public static function log(string $level, array|string $message, array $context = [], array $params = []): void
     {
         self::init($params);
         self::$instance->log($level, $message, $context);
@@ -34,7 +34,7 @@ class LogStatic
      * @param array $params
      * @throws \ReflectionException
      */
-    public static function makeLog($message, array $context = [], array $params = []): void
+    public static function makeLog(array|string $message, array $context = [], array $params = []): void
     {
         self::init($params);
         self::$instance->makeLog($message, $context);
@@ -48,7 +48,7 @@ class LogStatic
      * @return Log
      * @throws \ReflectionException
      */
-    public static function setOption(string $key, $val): Log
+    public static function setOption(string $key, mixed $val): Log
     {
         self::init();
         return self::$instance->setOption($key, $val);
@@ -58,10 +58,10 @@ class LogStatic
      * return all configuration or only given key value
      *
      * @param null|string $key
-     * @return array|mixed
+     * @return mixed
      * @throws \ReflectionException
      */
-    public static function getOption(?string $key = null)
+    public static function getOption(?string $key = null): mixed
     {
         self::init();
         return self::$instance->getOption($key);

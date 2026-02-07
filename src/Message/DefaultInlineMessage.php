@@ -23,7 +23,7 @@ class DefaultInlineMessage extends DefaultMessage
      * @param string $indent
      * @return $this
      */
-    protected function processMessage($key, $value, string $indent): MessageInterface
+    protected function processMessage(string|int $key, $value, string $indent): MessageInterface
     {
         $row = ' | ';
 

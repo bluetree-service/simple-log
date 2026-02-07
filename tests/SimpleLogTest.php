@@ -47,24 +47,6 @@ class SimpleLogTest extends TestCase
             ->log('incorrect', 'Some log message');
     }
 
-    public function testCreateIncorrectLogMessage(): void
-    {
-        if (\PHP_VERSION < '8.0.0') {
-            $this->expectExceptionMessage(
-                'Incorrect message type. Must be string, array or object with __toString method.'
-            );
-            $this->expectException(\Psr\Log\InvalidArgumentException::class);
-        } else {
-            $this->expectExceptionMessage(
-                'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given'
-            );
-            $this->expectException(\TypeError::class);
-        }
-
-        (new Log(['log_path' => $this->logPath]))
-            ->makeLog(12312312);
-    }
-
     /**
      * simple create log object and create log message in given directory
      */

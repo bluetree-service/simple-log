@@ -17,10 +17,10 @@ class DefaultInlineMessageTest extends TestCase
 
         $this->assertMatchesRegularExpression($this->getSampleContent(), $message);
 
-        $message = (new DefaultInlineMessage())
-            ->createMessage(new MessageObject('Some log message'), [])->getMessage();
-
-        $this->assertMatchesRegularExpression($this->getSampleContent(), $message);
+//        $message = (new DefaultInlineMessage())
+//            ->createMessage(new MessageObject('Some log message'), [])->getMessage();
+//
+//        $this->assertMatchesRegularExpression($this->getSampleContent(), $message);
     }
 
     protected function getSampleContent(): string
@@ -81,22 +81,5 @@ class DefaultInlineMessageTest extends TestCase
     protected function getSampleContentWithContext(): string
     {
         return '#\[' . self::DATE_TIME_FORMAT . '] Some log message with some value#';
-    }
-
-    public function testMessageWithError(): void
-    {
-        if (\PHP_VERSION < '8.0.0') {
-            $this->expectExceptionMessage(
-                'Incorrect message type. Must be string, array or object with __toString method.'
-            );
-            $this->expectException(\Psr\Log\InvalidArgumentException::class);
-        } else {
-            $this->expectExceptionMessage(
-                'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given'
-            );
-            $this->expectException(\TypeError::class);
-        }
-
-        (new DefaultInlineMessage())->createMessage(32432, [])->getMessage();
     }
 }

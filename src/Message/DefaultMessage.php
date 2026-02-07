@@ -11,15 +11,15 @@ class DefaultMessage implements MessageInterface
     /**
      * @var string
      */
-    protected $message = '';
+    protected string $message = '';
 
     /**
-     * @param string|array|object $message
+     * @param string|array $message
      * @param array $context
      * @return $this
      * @throws InvalidArgumentException
      */
-    public function createMessage($message, array $context): MessageInterface
+    public function createMessage(string|array $message, array $context): MessageInterface
     {
         $this->buildMessage($message)
             ->wrapMessage()
@@ -64,28 +64,17 @@ class DefaultMessage implements MessageInterface
     /**
      * recurrent function to convert array into message
      *
-     * @param string|array|object $message
+     * @param string|array $message
      * @param string $indent
      * @return $this
      * @throws InvalidArgumentException
      */
-    protected function buildMessage($message, string $indent = ''): MessageInterface
+    protected function buildMessage(string|array $message, string $indent = ''): MessageInterface
     {
-        switch (true) {
-            case \is_array($message):
-                $this->buildArrayMessage($message, $indent);
-                break;
-
-            case \method_exists($message, '__toString'):
-            case \is_string($message):
-                $this->message = $message . PHP_EOL;
-                break;
-
-            default:
-                throw new InvalidArgumentException(
-                    'Incorrect message type. Must be string, array or object with __toString method.'
-                );
-        }
+        match (true) {
+            \is_array($message) => $this->buildArrayMessage($message, $indent),
+            \is_string($message) => $this->message = $message . PHP_EOL,
+        };
 
         return $this;
     }
@@ -103,11 +92,11 @@ class DefaultMessage implements MessageInterface
 
     /**
      * @param string|int $key
-     * @param mixed $value
+     * @param string|array $value
      * @param string $indent
      * @return $this
      */
-    protected function processMessage($key, $value, string $indent): MessageInterface
+    protected function processMessage(string|int $key, string|array $value, string $indent): MessageInterface
     {
         $row = '- ';
 
@@ -147,9 +136,7 @@ class DefaultMessage implements MessageInterface
      */
     protected function dateTime(): string
     {
-        $dateTime = new \DateTime();
-
-        return $dateTime->format(self::DATE_TIME_FORMAT);
+        return (new \DateTime())->format(self::DATE_TIME_FORMAT);
     }
 
     /**

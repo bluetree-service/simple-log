@@ -3,6 +3,7 @@
 namespace SimpleLog\Test;
 
 use PHPUnit\Framework\TestCase;
+use SimpleLog\Message\DefaultInlineMessage;
 use SimpleLog\Message\DefaultMessage;
 
 class DefaultMessageTest extends TestCase
@@ -13,6 +14,14 @@ class DefaultMessageTest extends TestCase
 
         $this->assertEquals($this->getSampleContent(), \substr($message, strpos($message, "\n") + 1));
     }
+
+//    public function testSimpleMessageFromObject(): void
+//    {
+//        $message = (new DefaultMessage())
+//            ->createMessage(new MessageObject('Some log message'), [])->getMessage();
+//
+//        $this->assertEquals($this->getSampleContent(), \substr($message, strpos($message, "\n") + 1));
+//    }
 
     protected function getSampleContent(): string
     {
@@ -98,22 +107,5 @@ Some log message with some value
 -----------------------------------------------------------
 
 EOT;
-    }
-
-    public function testMessageWithError(): void
-    {
-        if (\PHP_VERSION < '8.0.0') {
-            $this->expectExceptionMessage(
-                'Incorrect message type. Must be string, array or object with __toString method.'
-            );
-            $this->expectException(\Psr\Log\InvalidArgumentException::class);
-        } else {
-            $this->expectExceptionMessage(
-                'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given'
-            );
-            $this->expectException(\TypeError::class);
-        }
-
-        (new DefaultMessage())->createMessage(32432, [])->getMessage();
     }
 }

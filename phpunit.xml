@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpunit bootstrap="vendor/autoload.php" colors="true" convertWarningsToExceptions="false">
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.1/phpunit.xsd"
+        bootstrap="vendor/autoload.php"
+        cacheDirectory=".phpunit.cache"
+        colors="true"
+>
     <testsuites>
         <testsuite name="message">
             <directory>tests/Message</directory>
@@ -11,9 +17,9 @@
             <file>tests/SimpleLogTest.php</file>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <source>
+        <include>
             <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </source>
 </phpunit>

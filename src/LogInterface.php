@@ -9,11 +9,11 @@ interface LogInterface
     /**
      * create log message
      *
-     * @param array|string|object $message
+     * @param array|string $message
      * @param array $context
      * @return $this
      */
-    public function makeLog($message, array $context = []): LogInterface;
+    public function makeLog(array|string $message, array $context = []): LogInterface;
 
     /**
      * set log option for all future executions of makeLog
@@ -22,13 +22,13 @@ interface LogInterface
      * @param mixed $val
      * @return $this
      */
-    public function setOption(string $key, $val): LogInterface;
+    public function setOption(string $key, mixed $val): LogInterface;
 
     /**
      * return all configuration or only given key value
      *
      * @param null|string $key
-     * @return array|mixed
+     * @return mixed
      */
-    public function getOption(?string $key = null);
+    public function getOption(?string $key = null): mixed;
 }

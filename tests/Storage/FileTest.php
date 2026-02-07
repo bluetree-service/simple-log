@@ -30,6 +30,16 @@ class FileTest extends TestCase
     protected $fullTestFilePath;
 
     /**
+     * @var string
+     */
+    protected $noPermissionLog = '/../no_permission/notice.log';
+
+    /**
+     * @var string
+     */
+    protected $noPermissionLogPath = '/../no_permission';
+
+    /**
      * @var array
      */
     protected $testMessage = [
@@ -40,7 +50,7 @@ class FileTest extends TestCase
     /**
      * actions launched before test starts
      */
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->logPath = __DIR__ . '/../log';
         $this->fileConfig = ['log_path' => $this->logPath];
@@ -95,8 +105,7 @@ class FileTest extends TestCase
     public function testExceptionDuringSaveLogFile(): void
     {
         $this->expectException(\SimpleLog\LogException::class);
-        \chmod(__DIR__ . '/../no_permission/notice.log', 0555);
-        (new File(['log_path' => __DIR__ . '/../no_permission']))
+        (new File(['log_path' => __DIR__ . $this->noPermissionLogPath]))
             ->store($this->testMessage[0], $this->testLog);
     }
 

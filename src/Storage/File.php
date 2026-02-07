@@ -11,7 +11,7 @@ class File implements StorageInterface
     /**
      * @var array
      */
-    protected $params = [];
+    protected array $params = [];
 
     /**
      * @param array $params

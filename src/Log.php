@@ -20,7 +20,7 @@ class Log implements LogInterface, LoggerInterface
     /**
      * @var array
      */
-    protected $defaultParams = [
+    protected array $defaultParams = [
         'log_path' => './log',
         'level' => 'notice',
         'storage' => File::class,
@@ -30,22 +30,22 @@ class Log implements LogInterface, LoggerInterface
     /**
      * @var StorageInterface
      */
-    protected $storage;
+    protected StorageInterface $storage;
 
     /**
      * @var array
      */
-    protected $levels = [];
+    protected array $levels = [];
 
     /**
      * @var MessageInterface
      */
-    protected $message;
+    protected MessageInterface $message;
 
     /**
      * @var MessageInterface
      */
-    protected $lastMessage;
+    protected MessageInterface $lastMessage;
 
     /**
      * @param array $params
@@ -53,9 +53,16 @@ class Log implements LogInterface, LoggerInterface
     public function __construct(array $params = [])
     {
         $this->defaultParams = \array_merge($this->defaultParams, $params);
-
-        $levels = new \ReflectionClass(new LogLevel());
-        $this->levels = $levels->getConstants();
+        $this->levels = [
+            'EMERGENCY' => LogLevel::EMERGENCY,
+            'ALERT' => LogLevel::ALERT,
+            'CRITICAL' => LogLevel::CRITICAL,
+            'ERROR' => LogLevel::ERROR,
+            'WARNING' => LogLevel::WARNING,
+            'NOTICE' => LogLevel::NOTICE,
+            'INFO' => LogLevel::INFO,
+            'DEBUG' => LogLevel::DEBUG,
+        ];
 
         $this->reloadStorage();
         $this->reloadMessage();
@@ -81,7 +88,7 @@ class Log implements LogInterface, LoggerInterface
      * @param array $context
      * @throws InvalidArgumentException
      */
-    public function log($level, $message, array $context = [])
+    public function log(string $level, $message, array $context = []): void
     {
         if (!\in_array($level, $this->levels, true)) {
             throw new InvalidArgumentException('Level not defined: ' . $level);
@@ -131,7 +138,7 @@ class Log implements LogInterface, LoggerInterface
      * @param mixed $val
      * @return $this
      */
-    public function setOption(string $key, $val): LogInterface
+    public function setOption(string $key, mixed $val): LogInterface
     {
         $this->defaultParams[$key] = $val;
         return $this->reloadStorage();
@@ -141,9 +148,9 @@ class Log implements LogInterface, LoggerInterface
      * return all configuration or only given key value
      *
      * @param null|string $key
-     * @return array|mixed
+     * @return mixed
      */
-    public function getOption(?string $key = null)
+    public function getOption(?string $key = null): mixed
     {
         if ($key === null) {
             return $this->defaultParams;

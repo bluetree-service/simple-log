@@ -9,12 +9,12 @@ class DefaultJsonMessage extends DefaultMessage
     /**
      * @var array
      */
-    protected $messageScheme = [];
+    protected array $messageScheme = [];
 
     /**
      * @var array
      */
-    protected $context = [];
+    protected array $context = [];
 
     /**
      * @param string|array|object $message
