@@ -88,7 +88,7 @@ class Log implements LogInterface, LoggerInterface
      * @param array $context
      * @throws InvalidArgumentException
      */
-    public function log(string $level, $message, array $context = []): void
+    public function log($level, $message, array $context = []): void
     {
         if (!\in_array($level, $this->levels, true)) {
             throw new InvalidArgumentException('Level not defined: ' . $level);

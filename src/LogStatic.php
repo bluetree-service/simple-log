@@ -7,10 +7,9 @@ namespace SimpleLog;
 class LogStatic
 {
     /**
-     * @var Log
+     * @var Log|null
      */
-    protected static Log $instance;
-
+    protected static ?Log $instance = null;
     /**
      * log event information into file
      *
@@ -75,7 +74,7 @@ class LogStatic
      */
     protected static function init(array $params = []): void
     {
-        if (is_null(self::$instance)) {
+        if (\is_null(self::$instance)) {
             self::$instance = new Log($params);
         }
     }

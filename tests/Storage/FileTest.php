@@ -105,6 +105,7 @@ class FileTest extends TestCase
     public function testExceptionDuringSaveLogFile(): void
     {
         $this->expectException(\SimpleLog\LogException::class);
+        \chmod(__DIR__ . $this->noPermissionLogPath, 0444);
         (new File(['log_path' => __DIR__ . $this->noPermissionLogPath]))
             ->store($this->testMessage[0], $this->testLog);
     }
