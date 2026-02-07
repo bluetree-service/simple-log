@@ -4,3 +4,4 @@ build
 !build/.gitkep
 tests/reports/fixed/*.xml
 .phpunit.result.cache
+.idea/
